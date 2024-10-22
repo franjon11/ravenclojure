@@ -39,5 +39,5 @@ La DApp contará con un **dashboard** donde los colaboradores podrán:
 
 ### Recompensas con Tokens
 
-La plataforma premiará a los colaboradores con Tokens, basados en el porcentaje donado en cada campaña. Estos tokens se reflejarán en un **ranking de donantes**, visible en el dashboard.
+La plataforma premiará a los colaboradores con Tokens, basados en el porcentaje donado en cada campaña (donde cada percentil es un tier). Estos tokens se reflejarán en un **ranking de donantes**, visible en el dashboard.
 
