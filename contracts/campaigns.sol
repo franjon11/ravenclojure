@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract Campaigns {
+import "./reward.sol";
 
+contract Campaigns {
+    Reward public rewardContract;
     enum CampaignState { Active, Succeful, Failed }
 
     struct Campaign {
@@ -16,6 +18,10 @@ contract Campaigns {
 
     uint public totalCampaigns;
     mapping(uint => Campaign) public campaigns;
+
+    constructor(address _rewardAddress) {
+        rewardContract = Reward(_rewardAddress);
+    }
     
     function setCampaign(uint _target_amount, uint _days_deadline) public {
         require(_target_amount > 0, "Target amount must be greater than zero ");
@@ -58,5 +64,14 @@ contract Campaigns {
 
         delete campaigns[_campaignId];
         totalCampaigns--;
+    }
+
+    function closeCampaing() public {
+        // Completar esto
+        _giveReward(msg.sender, 0);     // De prueba
+    }
+
+    function _giveReward(address contributorAccount, uint tier) internal {
+        rewardContract.mint(contributorAccount, tier, 1);
     }
 }
