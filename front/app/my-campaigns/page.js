@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import campaignsContractABI from "../../campaignsContract.json";
 
-const web3 = new Web3("http://localhost:8545");
-const contractAddress = "0x693A5A22ABd25009a20261091da95eE4c01f0831";
+const web3 = new Web3("http://localhost:7545");
+const contractAddress = "0xC6aFdC45B5D0F360b8b87D6a5aDB4AC5315FB713";
 const campaignsContract = new web3.eth.Contract(
   campaignsContractABI,
   contractAddress
@@ -15,12 +15,11 @@ const MyCampaignsPage = () => {
 
   useEffect(() => {
     async function fetchCampaigns() {
-      const contract = await campaignsContract.methods.getCampaigns().call();
-      const totalCampaigns = await campaignsContract.methods
-        .totalCampaigns()
+      const contract_campaigns = await campaignsContract.methods
+        .getCampaigns()
         .call();
-      console.log("las campañas son", totalCampaigns);
-      setCampaigns(contract);
+      console.log("las campañas son", contract_campaigns.length);
+      setCampaigns(contract_campaigns);
     }
     fetchCampaigns();
   }, []);
