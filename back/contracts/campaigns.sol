@@ -14,33 +14,31 @@ contract Campaigns {
         CampaignState state;
     }
 
-    uint public totalCampaigns;
-    mapping(uint => Campaign) public campaigns;
+    event NewCampaign(uint campaignId, uint target_amount, uint _days_deadline);
+
+    Campaign[] public campaigns;
     
     function setCampaign(uint _target_amount, uint _days_deadline) public {
         require(_target_amount > 0, "Target amount must be greater than zero ");
-        totalCampaigns++;
-        campaigns[totalCampaigns] = Campaign({
-            target_amount: _target_amount,
-            current_amount: 0,
-            deadline: _days_deadline,
-            creationDate: block.timestamp,
-            creator: msg.sender,
-            state: CampaignState.Active
-        });
+
+        Campaign memory campaign = Campaign(_target_amount, 0, _days_deadline, block.timestamp, msg.sender, CampaignState.Active);
+        campaigns.push(campaign);
+
+        uint campaignId = campaigns.length;
+        emit NewCampaign(campaignId, _target_amount, _days_deadline);
     }
 
     function getCampaigns() public view returns ( Campaign[] memory) {
-        Campaign[] memory allCampaigns = new Campaign[](totalCampaigns);
+        Campaign[] memory allCampaigns = new Campaign[](campaigns.length);
         
-        for (uint i = 0; i < totalCampaigns; i++) {
+        for (uint i = 0; i < campaigns.length; i++) {
             allCampaigns[i] = campaigns[i];
         }
         
         return allCampaigns;
     }
 
-    function contribute(uint _campaignId, uint _amount) external view { 
+/*     function contribute(uint _campaignId, uint _amount) external view { 
         Campaign memory campaign = campaigns[_campaignId];
         require(campaign.state == CampaignState.Active, "Can only contribute to active campaigns");
 
@@ -58,5 +56,5 @@ contract Campaigns {
 
         delete campaigns[_campaignId];
         totalCampaigns--;
-    }
+    } */
 }
