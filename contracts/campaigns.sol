@@ -15,9 +15,10 @@ contract Campaigns {
         address creator;
         CampaignState state;
     }
-
+    
     uint public totalCampaigns;
     mapping(uint => Campaign) public campaigns;
+    mapping(uint => mapping(address => uint)) public contributors;
 
     constructor(address _rewardAddress) {
         rewardContract = Reward(_rewardAddress);
@@ -66,12 +67,24 @@ contract Campaigns {
         totalCampaigns--;
     }
 
-    function closeCampaing() public {
-        // Completar esto
-        _giveReward(msg.sender, 0);     // De prueba
+    function closeCampaing(uint _campaingId) public view {
+        //Campaign memory campaign = campaigns[_campaingId];
+        //_giveReward(contributorAddress, donatedAmount, totalAmount);
     }
 
-    function _giveReward(address contributorAccount, uint tier) internal {
-        rewardContract.mint(contributorAccount, tier, 1);
+    function _giveReward(address contributorAddress, uint donatedAmount, uint totalAmount) internal {
+        uint percentage = (donatedAmount * 100) / totalAmount;
+        uint8 tier;
+        if(percentage > 0 && percentage <= 25) {
+            tier = 0;   // BRONZE
+        } else if (percentage > 25 && percentage <= 50) {
+            tier = 1;   // SILVER
+        } else if (percentage > 50 && percentage <= 75) {
+            tier = 2;   // GOLD
+        } else if (percentage > 75 && percentage <= 100) {
+            tier = 3;   // DIAMOND
+        }
+
+        rewardContract.mint(contributorAddress, tier, 1);
     }
 }
