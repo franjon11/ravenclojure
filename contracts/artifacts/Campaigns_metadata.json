@@ -63,6 +63,30 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "campaignsByContributor",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "_campaignId",
 						"type": "uint256"
@@ -83,11 +107,16 @@
 				],
 				"name": "closeCampaing",
 				"outputs": [],
-				"stateMutability": "view",
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
 				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_contributor",
+						"type": "address"
+					},
 					{
 						"internalType": "uint256",
 						"name": "_campaignId",
@@ -101,7 +130,7 @@
 				],
 				"name": "contribute",
 				"outputs": [],
-				"stateMutability": "view",
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -112,17 +141,17 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "contributors",
-				"outputs": [
-					{
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
+					}
+				],
+				"name": "contributorsByCampaign",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -382,11 +411,11 @@
 			]
 		},
 		"contracts/campaigns.sol": {
-			"keccak256": "0x48246a6eb2847fe723b28417e3f38c0772f4f24f7f9e97f07c2db18737063806",
+			"keccak256": "0x3ad1fb50dec9a9d88d826117ccb7c26c3f6e286d18ddbbb9db164eb3e08678b1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://41319bf9f5420c79bb1aa476d6ad00f245d97842a7d350ef1d29f763b3bf58f6",
-				"dweb:/ipfs/QmcqkdNa2aPcoBoas24cnau12Hpmv5PNvvTeQ5fEA6Hfzm"
+				"bzz-raw://fca0c880cc484752ee11f5a249314e0bcd9d9ac0b5ea51c8340743fae0759a86",
+				"dweb:/ipfs/QmV3hRxSsmMLrRZJkVb3L26YM3gy2PhvLMZjEzFz155imT"
 			]
 		},
 		"contracts/reward.sol": {

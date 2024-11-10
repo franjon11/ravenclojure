@@ -18,7 +18,9 @@ contract Campaigns {
     
     uint public totalCampaigns;
     mapping(uint => Campaign) public campaigns;
-    mapping(uint => mapping(address => uint)) public contributors;
+
+    mapping(uint => address[]) public contributorsByCampaign;    
+    mapping(address => mapping(uint => uint)) public campaignsByContributor;
 
     constructor(address _rewardAddress) {
         rewardContract = Reward(_rewardAddress);
@@ -47,11 +49,15 @@ contract Campaigns {
         return allCampaigns;
     }
 
-    function contribute(uint _campaignId, uint _amount) external view { 
+    function contribute(address _contributor, uint _campaignId, uint _amount) external { 
         Campaign memory campaign = campaigns[_campaignId];
         require(campaign.state == CampaignState.Active, "Can only contribute to active campaigns");
 
         // ...
+        if(campaignsByContributor[_contributor][_campaignId] == 0) {
+            contributorsByCampaign[_campaignId].push(_contributor);
+        }
+        campaignsByContributor[_contributor][_campaignId] += _amount;
 
         campaign.current_amount += _amount;
     }
@@ -67,9 +73,22 @@ contract Campaigns {
         totalCampaigns--;
     }
 
-    function closeCampaing(uint _campaingId) public view {
-        //Campaign memory campaign = campaigns[_campaingId];
+    function closeCampaing(uint _campaingId) public {
+        Campaign memory campaign = campaigns[_campaingId];
         //_giveReward(contributorAddress, donatedAmount, totalAmount);
+        if(campaign.state == CampaignState.Succeful) {
+            // Se realiza la transaccion al owner de la campaña
+
+            uint totalAmount = campaign.target_amount;
+            for(uint i = 0; i < contributorsByCampaign[_campaingId].length; i++) {
+                address contributorAddress = contributorsByCampaign[_campaingId][i];
+                uint donatedAmount = campaignsByContributor[contributorAddress][_campaingId];
+                _giveReward(contributorAddress, donatedAmount, totalAmount);
+            }
+            
+        } else {
+            // Se devuelve el dinero a los contribuyentes
+        }
     }
 
     function _giveReward(address contributorAddress, uint donatedAmount, uint totalAmount) internal {
