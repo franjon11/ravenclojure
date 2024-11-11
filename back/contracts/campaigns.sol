@@ -87,7 +87,7 @@ contract Campaigns {
             }
             
         } else {
-            // Se devuelve el dinero a los contribuyentes
+            // Se devuelve las donaciones a cada uno de los contribuyentes
         }
     }
 
