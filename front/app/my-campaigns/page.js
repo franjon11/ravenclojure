@@ -1,7 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import Web3 from "web3";
-import campaignsContractABI from "../../campaignsContract.json";
+import React, { useState } from "react";
 import {
   Typography,
   Fab,
@@ -17,52 +15,40 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { blue } from "@mui/material/colors";
-
-const web3 = new Web3("http://localhost:8545");
-const contractAddress = "0xc42411093090108709aFe70Dde10BCCF249C5ACc";
-const campaignsContract = new web3.eth.Contract(
-  campaignsContractABI,
-  contractAddress
-);
+import useCampaigns from "../utils/useCampaigns";
 
 const MyCampaignsPage = () => {
-  const [campaigns, setCampaigns] = useState([]);
+  const { campaigns, setCampaign } = useCampaigns();
   const [newCampaign, setNewCampaign] = useState({
     name: "",
     amount: "",
     deadline: "",
   });
+  const [daysRemaining, setDaysRemaining] = useState(0);
   const [openModal, setOpenModal] = useState(false);
-
-  useEffect(() => {
-    async function fetchCampaigns() {
-      const contract_campaigns = await campaignsContract.methods
-        .getCampaigns()
-        .call();
-      setCampaigns(contract_campaigns);
-    }
-    fetchCampaigns();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewCampaign({ ...newCampaign, [name]: value });
+    if (name === "deadline") {
+      const today = new Date();
+      const selectedDate = new Date(value);
+
+      const differenceInTime = selectedDate.getTime() - today.getTime();
+      const daysRemaining = Math.ceil(differenceInTime / (1000 * 3600 * 24));
+
+      setDaysRemaining(daysRemaining);
+    }
+
+    setNewCampaign((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const setCampaign = () => {
-    async () => {
-      await campaignsContract.methods
-        .setCampaign(
-          web3.utils.toBN(newCampaign.amount),
-          web3.utils.toBN(newCampaign.deadline),
-          newCampaign.name
-        )
-        .send();
-    };
+  const handleCreateCampaign = () => {
+    setCampaign(newCampaign.amount, daysRemaining, newCampaign.name);
     setOpenModal(false);
   };
-
-  console.log(campaigns);
 
   return (
     <Container
@@ -77,6 +63,8 @@ const MyCampaignsPage = () => {
               sx={{
                 backgroundColor: blue[30],
                 borderLeft: `5px solid ${blue[700]}`,
+                width: 300, // Ancho fijo para las cards
+                maxWidth: 300, // Asegura que no se expanda más allá de este tamaño
               }}>
               <CardContent>
                 <Typography
@@ -142,7 +130,7 @@ const MyCampaignsPage = () => {
             variant='h6'
             component='h2'
             sx={{ mb: 2 }}>
-            Nueva Campaña
+            Crear nueva Campaña
           </Typography>
           <TextField
             fullWidth
@@ -176,7 +164,7 @@ const MyCampaignsPage = () => {
             variant='contained'
             color='primary'
             fullWidth
-            onClick={setCampaign}>
+            onClick={handleCreateCampaign}>
             Crear Campaña
           </Button>
         </Box>
