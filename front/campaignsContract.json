@@ -1,16 +1,34 @@
 [
   {
+    "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
         "internalType": "uint256",
-        "name": "_campaignId",
+        "name": "campaignId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "target_amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_days_deadline",
         "type": "uint256"
       }
     ],
-    "name": "cancelCampaign",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "name": "NewCampaign",
+    "type": "event"
   },
   {
     "inputs": [
@@ -23,6 +41,11 @@
         "internalType": "uint256",
         "name": "_days_deadline",
         "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
       }
     ],
     "name": "setCampaign",
@@ -40,6 +63,11 @@
     ],
     "name": "campaigns",
     "outputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
       {
         "internalType": "uint256",
         "name": "target_amount",
@@ -75,29 +103,16 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_campaignId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "contribute",
-    "outputs": [],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "getCampaigns",
     "outputs": [
       {
         "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
           {
             "internalType": "uint256",
             "name": "target_amount",
@@ -132,19 +147,6 @@
         "internalType": "struct Campaigns.Campaign[]",
         "name": "",
         "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalCampaigns",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",
