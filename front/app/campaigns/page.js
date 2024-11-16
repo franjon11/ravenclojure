@@ -17,8 +17,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { blue } from "@mui/material/colors";
 import useCampaigns from "../utils/useCampaigns";
 
-const MyCampaignsPage = () => {
-  const { campaigns, setCampaign } = useCampaigns();
+const CampaignsPage = () => {
+  const { campaigns, setCampaign, cancelCampaign } = useCampaigns();
   const [newCampaign, setNewCampaign] = useState({
     name: "",
     amount: "",
@@ -50,44 +50,66 @@ const MyCampaignsPage = () => {
     setOpenModal(false);
   };
 
+  const handleCancelCampaign = (campaignId) => {
+    cancelCampaign(campaignId);
+  };
+
   return (
     <Container
       sx={{
         py: 4,
         minHeight: "100vh",
       }}>
-      <Grid2 container spacing={3}>
-        {campaigns.map((campaign) => (
-          <Grid2 xs={12} sm={6} md={4} key={campaign.creationDate}>
-            <Card
-              sx={{
-                backgroundColor: blue[30],
-                borderLeft: `5px solid ${blue[700]}`,
-                width: 300, // Ancho fijo para las cards
-                maxWidth: 300, // Asegura que no se expanda más allá de este tamaño
-              }}>
-              <CardContent>
-                <Typography
-                  variant='h6'
-                  sx={{ fontWeight: "bold", color: blue[900] }}>
-                  {campaign.name}
-                </Typography>
-                <Typography variant='body1' sx={{ color: blue[700] }}>
-                  Monto: {campaign.target_amount}
-                </Typography>
-                <Typography variant='body2' sx={{ color: blue[700], mb: 1 }}>
-                  Duración: {campaign.deadline} días
-                </Typography>
-                <Chip
-                  label={campaign.state === 0n ? "Activa" : "Vencida"}
-                  color={campaign.state === 0n ? "success" : "error"}
-                  sx={{ mt: 1 }}
-                />
-              </CardContent>
-            </Card>
-          </Grid2>
-        ))}
-      </Grid2>
+      {campaigns.length === 0 ? (
+        <Typography
+          variant='h5'
+          align='center'
+          color='textSecondary'
+          sx={{ mt: 4 }}>
+          No hay campañas activas para donar
+        </Typography>
+      ) : (
+        <Grid2 container spacing={3}>
+          {campaigns.map((campaign, index) => (
+            <Grid2 xs={12} sm={6} md={4} key={campaign.creationDate}>
+              <Card
+                sx={{
+                  backgroundColor: blue[30],
+                  borderLeft: `5px solid ${blue[700]}`,
+                  width: 300,
+                  maxWidth: 300,
+                }}>
+                <CardContent>
+                  <Typography
+                    variant='h6'
+                    sx={{ fontWeight: "bold", color: blue[900] }}>
+                    {campaign.name}
+                  </Typography>
+                  <Typography variant='body1' sx={{ color: blue[700] }}>
+                    Monto: {campaign.target_amount}
+                  </Typography>
+                  <Typography variant='body2' sx={{ color: blue[700], mb: 1 }}>
+                    Duración: {campaign.deadline} días
+                  </Typography>
+                  <Chip
+                    label={campaign.state === 0n ? "Activa" : "Vencida"}
+                    color={campaign.state === 0n ? "success" : "error"}
+                    sx={{ mt: 1 }}
+                  />
+                  <Button
+                    variant='outlined'
+                    color='error'
+                    fullWidth
+                    sx={{ mt: 2 }}
+                    onClick={() => handleCancelCampaign(index)}>
+                    Cancelar Campaña
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid2>
+          ))}
+        </Grid2>
+      )}
 
       <Fab
         color='primary'
@@ -173,4 +195,4 @@ const MyCampaignsPage = () => {
   );
 };
 
-export default MyCampaignsPage;
+export default CampaignsPage;

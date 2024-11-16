@@ -45,6 +45,24 @@ const useCampaigns = () => {
     }
   };
 
+  // Cancelar una campaña
+  const cancelCampaign = async (id_campaign) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const accounts = await web3.eth.getAccounts();
+      await campaignsContract.methods
+        .cancelCampaign(id_campaign)
+        .send({ from: accounts[0], gas: 3000000 });
+      fetchCampaigns();
+    } catch (err) {
+      setError("Error al cancelar la campaña");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchCampaigns();
   }, []);
@@ -55,6 +73,7 @@ const useCampaigns = () => {
     error,
     fetchCampaigns,
     setCampaign,
+    cancelCampaign,
   };
 };
 

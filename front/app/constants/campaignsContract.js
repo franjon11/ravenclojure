@@ -14,6 +14,38 @@ export const ABI = [
         name: "name",
         type: "string",
       },
+    ],
+    name: "CampaignCancelled",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
+      },
+    ],
+    name: "cancelCampaign",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "campaignId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
       {
         indexed: false,
         internalType: "uint256",
@@ -153,5 +185,4 @@ export const ABI = [
     type: "function",
   },
 ];
-
-export const contractAddress = "0x0b520D114E0995Da760E50bfDAEf3364E00108CD";
+export const contractAddress = "0x193A4bDf4CcE77eC424FADE2D35A57369F115EB1";
