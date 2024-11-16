@@ -3,8 +3,6 @@ pragma solidity ^0.8.0;
 
 contract Campaigns {
 
-    //push
-
     enum CampaignState { Active, Succeful, Failed }
 
     struct Campaign {
@@ -18,6 +16,7 @@ contract Campaigns {
     }
 
     event NewCampaign(uint campaignId, string name, uint target_amount, uint _days_deadline);
+    event CampaignCancelled(uint campaignId, string name);
 
     Campaign[] public campaigns;
     
@@ -48,16 +47,20 @@ contract Campaigns {
         // ...
 
         campaign.current_amount += _amount;
-    }
-
-    function cancelCampaign(uint _campaignId) external {
-        Campaign memory campaign = campaigns[_campaignId];
-        require(campaign.creator == msg.sender, "Only the creator of the campaign can cancel it");
-        require(campaign.state == CampaignState.Active, "Only active campaigns can be cancelled");
-
-        // ...
-
-        delete campaigns[_campaignId];
-        totalCampaigns--;
     } */
+
+
+    /* TODO: Cuando tengamos armado el listado de contribuyentes para una campaña, hay que devolver la contribucion al 
+    usuario correspondiente */
+    function cancelCampaign(uint _campaignId) public {
+        require(_campaignId < campaigns.length, "Campaign does not exist");
+        Campaign storage campaign = campaigns[_campaignId];
+
+        require(campaign.creator == msg.sender, "Only the creator can cancel this campaign");
+        require(campaign.state == CampaignState.Active, "Campaign is not active");
+
+        campaign.state = CampaignState.Failed;
+
+        emit CampaignCancelled(_campaignId, campaign.name);
+    }
 }
