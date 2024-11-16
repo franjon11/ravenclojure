@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavBar />
-        {/* div que mantenga centrado con un cierto margen a los lados */}
+
         <div className="mx-auto max-w-4xl px-4 py-8">{children}</div>
       </body>
     </html>

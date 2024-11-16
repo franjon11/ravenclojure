@@ -1,7 +1,7 @@
 const ROUTES = {
   MY_CAMPAIGNS: {
-    href: "/my-campaigns",
-    label: "Mis Campañas",
+    href: "/campaigns",
+    label: "Campañas",
   },
   CONTRIBUTIONS: {
     href: "/contributions",
