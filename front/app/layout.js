@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import { Container } from "@mui/material";
 import "./globals.css";
 import NavBar from "./components/NavBar";
 
@@ -26,7 +27,9 @@ export default function RootLayout({ children }) {
       >
         <NavBar />
 
-        <div className="mx-auto max-w-4xl px-4 py-8">{children}</div>
+        <div className="mx-auto max-w-4xl px-4 py-8">
+          <Container>{children}</Container>
+        </div>
       </body>
     </html>
   );
