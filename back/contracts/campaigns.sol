@@ -23,7 +23,7 @@ contract Campaigns {
     mapping(uint => address[]) public contributorsByCampaignId;    
     mapping(address => mapping(uint => uint)) public campaignsByContributor;
     
-    function setCampaign(uint _target_amount, uint _days_deadline, string memory _name) public {
+    function createNewCampaign(uint _target_amount, uint _days_deadline, string memory _name) public {
         require(_target_amount > 0, "Target amount must be greater than zero ");
 
         Campaign memory campaign = Campaign(_name, _target_amount, 0, _days_deadline, block.timestamp, msg.sender, CampaignState.Active);
