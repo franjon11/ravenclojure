@@ -6,6 +6,81 @@
 	"output": {
 		"abi": [
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "campaignId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					}
+				],
+				"name": "CampaignCancelled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "campaignId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "contributor",
+						"type": "address"
+					}
+				],
+				"name": "ContributionReceived",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "campaignId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "target_amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_days_deadline",
+						"type": "uint256"
+					}
+				],
+				"name": "NewCampaign",
+				"type": "event"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -15,6 +90,11 @@
 				],
 				"name": "campaigns",
 				"outputs": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
 					{
 						"internalType": "uint256",
 						"name": "target_amount",
@@ -52,6 +132,30 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "campaignsByContributor",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "_campaignId",
 						"type": "uint256"
@@ -65,18 +169,42 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "_campaignId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "_contributor",
+						"type": "address"
 					},
 					{
 						"internalType": "uint256",
-						"name": "_amount",
+						"name": "_campaignId",
 						"type": "uint256"
 					}
 				],
 				"name": "contribute",
 				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "contributorsByCampaignId",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
 				"stateMutability": "view",
 				"type": "function"
 			},
@@ -86,6 +214,11 @@
 				"outputs": [
 					{
 						"components": [
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
 							{
 								"internalType": "uint256",
 								"name": "target_amount",
@@ -136,24 +269,16 @@
 						"internalType": "uint256",
 						"name": "_days_deadline",
 						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_name",
+						"type": "string"
 					}
 				],
 				"name": "setCampaign",
 				"outputs": [],
 				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "totalCampaigns",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
 				"type": "function"
 			}
 		],
@@ -170,7 +295,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/campaigns.sol": "Campaigns"
+			"back/contracts/campaigns.sol": "Campaigns"
 		},
 		"evmVersion": "cancun",
 		"libraries": {},
@@ -184,12 +309,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/campaigns.sol": {
-			"keccak256": "0xa5981b6a515767c8b272675b9d105a9fb62ceb255c406a3fdacaadb297f390c6",
+		"back/contracts/campaigns.sol": {
+			"keccak256": "0x0dd043f9c69f64e4c329f330181e229c7e43ba0afec4fb75186d0c98ab49dc9e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ca8f1e0ed96090ac6de116e26188ad886e0ba54324d7fa2d452f8b64da87a198",
-				"dweb:/ipfs/QmYQmEcBDhKakWjnrsSEwrTq6W26e2cTMSZJp3MggVSAZV"
+				"bzz-raw://717789b0480f4a4d154a5c9d8401004b88842d79cfca9a2eea282398ebbcfab7",
+				"dweb:/ipfs/QmdtCN5XFe1BU2tiNuPsL3wDoHiaTnRctPrJMEj63FbVRo"
 			]
 		}
 	},
