@@ -17,8 +17,11 @@ contract Campaigns {
 
     event NewCampaign(uint campaignId, string name, uint target_amount, uint _days_deadline);
     event CampaignCancelled(uint campaignId, string name);
+    event ContributionReceived(uint campaignId, uint amount, address contributor);
 
     Campaign[] public campaigns;
+    mapping(uint => address[]) public contributorsByCampaignId;    
+    mapping(address => mapping(uint => uint)) public campaignsByContributor;
     
     function setCampaign(uint _target_amount, uint _days_deadline, string memory _name) public {
         require(_target_amount > 0, "Target amount must be greater than zero ");
@@ -40,15 +43,22 @@ contract Campaigns {
         return allCampaigns;
     }
 
-/*     function contribute(uint _campaignId, uint _amount) external view { 
+    function contribute(address _contributor, uint _campaignId) external payable { 
+        require(msg.value > 0, "Contribution must be greater than 0");
+        require(_campaignId < campaigns.length, "Campaign does not exist");
+        
         Campaign memory campaign = campaigns[_campaignId];
         require(campaign.state == CampaignState.Active, "Can only contribute to active campaigns");
 
-        // ...
+        uint valueEther = msg.value/(1 ether);
+        if(campaignsByContributor[_contributor][_campaignId] == 0) {
+            contributorsByCampaignId[_campaignId].push(_contributor);
+        }
+        campaignsByContributor[_contributor][_campaignId] += msg.value;
+        campaign.current_amount += valueEther;
 
-        campaign.current_amount += _amount;
-    } */
-
+        emit ContributionReceived(_campaignId, valueEther, _contributor);
+    }
 
     /* TODO: Cuando tengamos armado el listado de contribuyentes para una campaña, hay que devolver la contribucion al 
     usuario correspondiente */
@@ -60,6 +70,12 @@ contract Campaigns {
         require(campaign.state == CampaignState.Active, "Campaign is not active");
 
         campaign.state = CampaignState.Failed;
+
+        for(uint i = 0; i < contributorsByCampaignId[_campaignId].length; i++) {
+            address contributorAddress = contributorsByCampaignId[_campaignId][i];
+            uint amountDonated = campaignsByContributor[contributorAddress][_campaignId];
+            payable(contributorAddress).transfer(amountDonated);
+        }
 
         emit CampaignCancelled(_campaignId, campaign.name);
     }
