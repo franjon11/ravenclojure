@@ -66,6 +66,30 @@ contract Campaigns {
     }
 
 
+    function getContributions(address contributor) public view returns (Campaign[] memory, uint[] memory) {
+        uint contributionsCount = 0;
+        for(uint i = 0; i < campaigns.length; i++) {
+            if(campaignsByContributor[contributor][i] > 0) {
+                contributionsCount++;
+            }
+        }
+
+        Campaign[] memory contributorCampaigns = new Campaign[](contributionsCount);
+        uint[] memory contributorAmounts = new uint[](contributionsCount);
+
+        uint index = 0;
+        for (uint i = 0; i < campaigns.length; i++) {
+            uint contributedAmount = campaignsByContributor[contributor][i];
+            if (contributedAmount > 0) {
+                contributorCampaigns[index] = campaigns[i];
+                contributorAmounts[index] = contributedAmount;
+                index++;
+            }
+        }
+
+        return (contributorCampaigns, contributorAmounts);
+    }
+
     function cancelCampaign(uint _campaignId) public {
         require(_campaignId < campaigns.length, "Campaign does not exist");
         Campaign storage campaign = campaigns[_campaignId];

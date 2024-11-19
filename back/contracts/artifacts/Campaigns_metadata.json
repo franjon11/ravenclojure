@@ -261,6 +261,67 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "contributor",
+						"type": "address"
+					}
+				],
+				"name": "getContributions",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "target_amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "current_amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "deadline",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "creationDate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "creator",
+								"type": "address"
+							},
+							{
+								"internalType": "enum Campaigns.CampaignState",
+								"name": "state",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct Campaigns.Campaign[]",
+						"name": "",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "_target_amount",
 						"type": "uint256"
@@ -310,11 +371,11 @@
 	},
 	"sources": {
 		"back/contracts/campaigns.sol": {
-			"keccak256": "0x0dd043f9c69f64e4c329f330181e229c7e43ba0afec4fb75186d0c98ab49dc9e",
+			"keccak256": "0xf61189302c77fbbb1e81839db0ef56b6dfdd12f3f4602bfbd7885fcf05fb4b3f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://717789b0480f4a4d154a5c9d8401004b88842d79cfca9a2eea282398ebbcfab7",
-				"dweb:/ipfs/QmdtCN5XFe1BU2tiNuPsL3wDoHiaTnRctPrJMEj63FbVRo"
+				"bzz-raw://241324b9e5b31e39f0fa634021ec74df3ee8a9aed8c4a24a4590339b4aefef58",
+				"dweb:/ipfs/QmcDMdxhfA6v8wcGDskcUS3UnoHs6B9V89UJnjAmv1FDcx"
 			]
 		}
 	},
