@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import Web3 from "web3";
 import { ABI, contractAddress } from "../constants/campaignsContract.js";
 
+const web3 = new Web3("http://localhost:8545");
+const campaignsContract = new web3.eth.Contract(ABI, contractAddress);
+
 const useContributions = () => {
   const [contributions, setContributions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,10 +15,18 @@ const useContributions = () => {
     setLoading(true);
     setError(null);
     try {
-      const contributionsData = await campaignsContract.methods
+      const [campaigns, amounts] = await campaignsContract.methods
         .getContributions(userAddress)
-        .call();
-      //...
+        .call( );
+      
+      const contributionsData = campaigns.map((campaign, index) => ({
+        name: campaign.name,
+        targetAmount: campaign.targetAmount,
+        amountDonated: amounts[index],
+        deadline: campaign.deadline,
+      }));
+
+      setContributions(contributionsData);
     } catch (err) {
       setError("Error al obtener las campañas");
       console.error(err);
@@ -23,6 +34,10 @@ const useContributions = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchContributions();
+  }, [])
 
   return {
     contributions,
