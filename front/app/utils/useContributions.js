@@ -10,14 +10,23 @@ const useContributions = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const connectToMetamask = async () => {
+    try {
+      await window.ethereum.enable();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // Obtener contribuciones desde el contrato
-  const fetchContributions = async (userAddress) => {
+  const fetchContributions = async () => {
     setLoading(true);
     setError(null);
     try {
+      const accounts = await web3.eth.getAccounts();
       const [campaigns, amounts] = await campaignsContract.methods
-        .getContributions(userAddress)
-        .call( );
+        .getContributions(accounts[0])
+        .call();
       
       const contributionsData = campaigns.map((campaign, index) => ({
         name: campaign.name,
@@ -37,6 +46,7 @@ const useContributions = () => {
 
   useEffect(() => {
     fetchContributions();
+    connectToMetamask();
   }, [])
 
   return {
