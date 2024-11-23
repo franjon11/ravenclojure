@@ -10,15 +10,6 @@ const useCampaigns = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Conectar a Metamask
-  const connectToMetamask = async () => {
-    try {
-      await window.ethereum.enable();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   // Obtener campañas desde el contrato
   const fetchCampaigns = async () => {
     setLoading(true);
@@ -76,7 +67,6 @@ const useCampaigns = () => {
 
   useEffect(() => {
     fetchCampaigns();
-    connectToMetamask();
   }, []);
 
   return {

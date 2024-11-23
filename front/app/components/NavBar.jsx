@@ -1,41 +1,56 @@
-import React from "react";
+"use client";
+
+import React, { useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ROUTES from "../constants/routes";
 import logo from "../logo.svg";
+import { UserContext } from "../providers/UserContextProvider";
+import { Button } from "@mui/material";
 
 const NavBar = () => {
+  const { userAccount, connect } = useContext(UserContext);
+
   return (
-    <nav className='bg-gray-800 p-4 flex justify-between items-center'>
-      <Link href='/' passHref>
-        <div className='flex items-center cursor-pointer'>
+    <nav className="bg-gray-800 p-4 flex justify-between items-center">
+      <Link href="/" passHref>
+        <div className="flex items-center cursor-pointer">
           <Image
             src={logo}
-            alt='Logo'
+            alt="Logo"
             width={60}
             height={60}
-            className='mr-2 rounded-full'
+            className="mr-2 rounded-full"
           />
         </div>
       </Link>
 
-      <div className='flex space-x-4'>
+      <div className="flex space-x-4">
         {Object.entries(ROUTES).map(([key, { href, label }]) => (
           <a
             key={key}
             href={href}
-            className='text-white px-3 py-2 rounded-md text-sm font-medium'>
+            className="text-white px-3 py-2 rounded-md text-sm font-medium"
+          >
             {label}
           </a>
         ))}
       </div>
 
-      <div className='flex items-center'>
-        <img
-          src='https://avatar.iran.liara.run/username?username=Raven+Clojure'
-          alt='User Avatar'
-          className='w-10 h-10 rounded-full'
-        />
+      <div className="flex items-center">
+        {!userAccount ? (
+          <Button onClick={connect} variant="contained" color="primary">
+            Conectar con Metamask
+          </Button>
+        ) : (
+          <img
+            src={
+              "https://avatar.iran.liara.run/public/boy?username=" + userAccount
+            }
+            alt="User Avatar"
+            className="w-10 h-10 rounded-full"
+          />
+        )}
       </div>
     </nav>
   );

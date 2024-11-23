@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Typography, Fab, Card, Grid2 } from "@mui/material";
+import { Typography, Fab, Grid2 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { blue } from "@mui/material/colors";
 import useCampaigns from "../utils/useCampaigns";
