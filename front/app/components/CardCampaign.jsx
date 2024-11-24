@@ -11,26 +11,25 @@ const CardCampaign = ({ campaign, handleCancelCampaign }) => {
         borderLeft: `5px solid ${blue[700]}`,
         width: 300,
         maxWidth: 300,
-      }}
-    >
+      }}>
       <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: "bold", color: blue[900] }}>
+        <Typography variant='h6' sx={{ fontWeight: "bold", color: blue[900] }}>
           {campaign.name}
         </Typography>
-        <Typography variant="body1" sx={{ color: blue[700] }}>
+        <Typography variant='body1' sx={{ color: blue[700] }}>
           Monto: {campaign.target_amount} ETH
         </Typography>
-        <Typography variant="body2" sx={{ color: blue[700], mb: 1 }}>
+        <Typography variant='body2' sx={{ color: blue[700], mb: 1 }}>
           Duración: {campaign.deadline} días
         </Typography>
         <BadgeCampaignState state={campaign.state} />
         <Button
-          variant="outlined"
-          color="error"
+          variant='outlined'
+          color='error'
           fullWidth
           sx={{ mt: 2 }}
-          onClick={() => handleCancelCampaign(index)}
-        >
+          onClick={() => handleCancelCampaign(campaign.id_campaign)}
+          disabled={campaign.state === 2n}>
           Cancelar Campaña
         </Button>
       </CardContent>

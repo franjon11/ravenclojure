@@ -47,12 +47,12 @@ const CampaignsPage = () => {
   return (
     <>
       {campaigns.length === 0 ? (
-        <Typography variant="h5" align="center" sx={{ mt: 4 }}>
+        <Typography variant='h5' align='center' sx={{ mt: 4 }}>
           No hay campañas activas para donar
         </Typography>
       ) : (
         <Grid2 container spacing={3}>
-          {campaigns.map((campaign, index) => (
+          {campaigns.map((campaign) => (
             <Grid2 xs={12} sm={6} md={4} key={campaign.creationDate}>
               <CardCampaign
                 campaign={campaign}
@@ -63,8 +63,8 @@ const CampaignsPage = () => {
         </Grid2>
       )}
       <Fab
-        color="primary"
-        aria-label="add"
+        color='primary'
+        aria-label='add'
         sx={{
           position: "fixed",
           bottom: 16,
@@ -74,8 +74,7 @@ const CampaignsPage = () => {
         }}
         onClick={() => {
           setOpenModal(true);
-        }}
-      >
+        }}>
         <AddIcon />
       </Fab>
 
