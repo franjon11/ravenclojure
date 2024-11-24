@@ -19,17 +19,29 @@ export const ABI = [
     type: "event",
   },
   {
+    anonymous: false,
     inputs: [
       {
+        indexed: false,
         internalType: "uint256",
-        name: "_campaignId",
+        name: "campaignId",
         type: "uint256",
       },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "contributor",
+        type: "address",
+      },
     ],
-    name: "cancelCampaign",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    name: "ContributionReceived",
+    type: "event",
   },
   {
     anonymous: false,
@@ -63,26 +75,16 @@ export const ABI = [
     type: "event",
   },
   {
-    inputs: [
+    inputs: [],
+    name: "campaign_id",
+    outputs: [
       {
         internalType: "uint256",
-        name: "_target_amount",
+        name: "",
         type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_days_deadline",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "_name",
-        type: "string",
       },
     ],
-    name: "setCampaign",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -99,6 +101,11 @@ export const ABI = [
         internalType: "string",
         name: "name",
         type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "id_campaign",
+        type: "uint256",
       },
       {
         internalType: "uint256",
@@ -135,6 +142,108 @@ export const ABI = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "campaignsByContributor",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
+      },
+    ],
+    name: "cancelCampaign",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_contributor",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
+      },
+    ],
+    name: "contribute",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "contributorsByCampaignId",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_target_amount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_days_deadline",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+    ],
+    name: "createNewCampaign",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "getCampaigns",
     outputs: [
@@ -144,6 +253,11 @@ export const ABI = [
             internalType: "string",
             name: "name",
             type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "id_campaign",
+            type: "uint256",
           },
           {
             internalType: "uint256",
@@ -185,4 +299,4 @@ export const ABI = [
     type: "function",
   },
 ];
-export const contractAddress = "0x193A4bDf4CcE77eC424FADE2D35A57369F115EB1";
+export const contractAddress = "0x654fd774c5B69819e049B12458A2d78907C867e0";

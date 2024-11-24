@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Web3 from "web3";
 import { ABI, contractAddress } from "../constants/campaignsContract.js";
+import { UserContext } from "../providers/UserContextProvider";
 
-const web3 = new Web3("http://localhost:7545");
+const web3 = new Web3("http://localhost:8545");
 const campaignsContract = new web3.eth.Contract(ABI, contractAddress);
 
 const useCampaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { userAccount } = useContext(UserContext);
 
   // Obtener campañas desde el contrato
   const fetchCampaigns = async () => {
@@ -29,15 +31,12 @@ const useCampaigns = () => {
 
   // Crear una nueva campaña
   const createNewCampaign = async (amount, daysRemaining, name) => {
-    console.log(amount, daysRemaining, name);
     setLoading(true);
     setError(null);
     try {
-      const accounts = await web3.eth.getAccounts();
-
       await campaignsContract.methods
         .createNewCampaign(amount, daysRemaining, name)
-        .send({ from: accounts[0], gas: 3000000 });
+        .send({ from: userAccount, gas: 3000000 });
       fetchCampaigns();
     } catch (err) {
       setError("Error al crear la campaña");
@@ -52,10 +51,9 @@ const useCampaigns = () => {
     setLoading(true);
     setError(null);
     try {
-      const accounts = await web3.eth.getAccounts();
       await campaignsContract.methods
         .cancelCampaign(id_campaign)
-        .send({ from: accounts[0], gas: 3000000 });
+        .send({ from: userAccount, gas: 3000000 });
       fetchCampaigns();
     } catch (err) {
       setError("Error al cancelar la campaña");
