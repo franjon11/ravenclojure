@@ -7,6 +7,7 @@ contract Campaigns {
 
     struct Campaign {
         string name;
+        uint id_campaign;
         uint target_amount;
         uint current_amount;
         uint deadline;
@@ -14,6 +15,8 @@ contract Campaigns {
         address creator;
         CampaignState state;
     }
+
+    uint public campaign_id = 0;
 
     event NewCampaign(uint campaignId, string name, uint target_amount, uint _days_deadline);
     event CampaignCancelled(uint campaignId, string name);
@@ -25,12 +28,14 @@ contract Campaigns {
     
     function createNewCampaign(uint _target_amount, uint _days_deadline, string memory _name) public {
         require(_target_amount > 0, "Target amount must be greater than zero ");
-
-        Campaign memory campaign = Campaign(_name, _target_amount, 0, _days_deadline, block.timestamp, msg.sender, CampaignState.Active);
+        
+        uint newCampaignId = campaign_id;
+        campaign_id++;
+        Campaign memory campaign = Campaign(_name, newCampaignId,_target_amount, 0, _days_deadline, block.timestamp, msg.sender, CampaignState.Active);
         campaigns.push(campaign);
 
-        uint campaignId = campaigns.length;
-        emit NewCampaign(campaignId, _name, _target_amount, _days_deadline);
+        
+        emit NewCampaign(newCampaignId, _name, _target_amount, _days_deadline);
     }
 
     function getCampaigns() public view returns ( Campaign[] memory) {
@@ -60,8 +65,7 @@ contract Campaigns {
         emit ContributionReceived(_campaignId, valueEther, _contributor);
     }
 
-    /* TODO: Cuando tengamos armado el listado de contribuyentes para una campaña, hay que devolver la contribucion al 
-    usuario correspondiente */
+
     function cancelCampaign(uint _campaignId) public {
         require(_campaignId < campaigns.length, "Campaign does not exist");
         Campaign storage campaign = campaigns[_campaignId];
