@@ -1,14 +1,15 @@
 "use client";
 import React from "react";
-import { Typography, Grid2, Card, CardContent, Button } from "@mui/material";
+import { Box, Typography, Grid2, Card, CardContent, Button } from "@mui/material";
 import CardContribution from "../components/CardContribution";
 import useContributions from "../utils/useContributions";
+import Link from "next/link";
 
 const ContributionsPage = () => {
   const {contributions} = useContributions();
 
   return (
-    <>
+    <Box>
       {contributions.length === 0  ? (
         <Typography variant="h5" align="center" sx={{ mt: 4 }}>
           No has contribuido a ninguna campaña
@@ -24,7 +25,26 @@ const ContributionsPage = () => {
           ))}
         </Grid2>
       )}
-    </>
+      <Box
+      display='flex'
+      flexDirection='column'
+      alignItems='center'
+      justifyContent='center'
+      textAlign='center'
+      height='20vh'>
+        <Button
+          component={Link}
+          href='/campaigns'
+          variant='contained'
+          color='primary'
+          size='large'
+          sx={{
+            marginTop: 4,
+          }}>
+          Ver campañas existentes
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
