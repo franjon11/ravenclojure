@@ -52,7 +52,7 @@ contract Campaigns {
         require(msg.value > 0, "Contribution must be greater than 0");
         require(_campaignId < campaigns.length, "Campaign does not exist");
         
-        Campaign memory campaign = campaigns[_campaignId];
+        Campaign storage campaign = campaigns[_campaignId];
         require(campaign.state == CampaignState.Active, "Can only contribute to active campaigns");
 
         uint valueEther = msg.value/(1 ether);
