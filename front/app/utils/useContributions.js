@@ -11,10 +11,12 @@ const useContributions = () => {
   const [error, setError] = useState(null);
 
   // Obtener contribuciones desde el contrato
-  const fetchContributions = async (userAddress) => {
+  const fetchContributions = async () => {
     setLoading(true);
     setError(null);
     try {
+      const userAddress = "0x0000000000000000000000000000000000000000";
+
       const [campaigns, amounts] = await campaignsContract.methods
         .getContributions(userAddress)
         .call( );
@@ -28,7 +30,7 @@ const useContributions = () => {
 
       setContributions(contributionsData);
     } catch (err) {
-      setError("Error al obtener las campañas");
+      setError("Error al obtener las contribuciones");
       console.error(err);
     } finally {
       setLoading(false);
