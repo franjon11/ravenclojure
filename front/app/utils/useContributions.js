@@ -15,18 +15,21 @@ const useContributions = () => {
     setLoading(true);
     setError(null);
     try {
-      const userAddress = "0x0000000000000000000000000000000000000000";
+      const accounts = await web3.eth.getAccounts();
 
-      const [campaigns, amounts] = await campaignsContract.methods
-        .getContributions(userAddress)
+      const result = await campaignsContract.methods
+        .getContributions(accounts[0])
         .call( );
       
+      const campaigns = result[0]
+      const amounts =  result[1]
+
       const contributionsData = campaigns.map((campaign, index) => ({
         name: campaign.name,
         targetAmount: campaign.targetAmount,
         amountDonated: amounts[index],
         deadline: campaign.deadline,
-      }));
+      }))
 
       setContributions(contributionsData);
     } catch (err) {
