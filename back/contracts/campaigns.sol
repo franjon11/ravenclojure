@@ -52,7 +52,7 @@ contract Campaigns {
         require(msg.value > 0, "Contribution must be greater than 0");
         require(_campaignId < campaigns.length, "Campaign does not exist");
         
-        Campaign memory campaign = campaigns[_campaignId];
+        Campaign storage campaign = campaigns[_campaignId];
         require(campaign.state == CampaignState.Active, "Can only contribute to active campaigns");
 
         uint valueEther = msg.value/(1 ether);
@@ -65,6 +65,30 @@ contract Campaigns {
         emit ContributionReceived(_campaignId, valueEther, _contributor);
     }
 
+
+    function getContributions(address contributor) public view returns (Campaign[] memory, uint[] memory) {
+        uint contributionsCount = 0;
+        for(uint i = 0; i < campaigns.length; i++) {
+            if(campaignsByContributor[contributor][i] > 0) {
+                contributionsCount++;
+            }
+        }
+
+        Campaign[] memory contributorCampaigns = new Campaign[](contributionsCount);
+        uint[] memory contributorAmounts = new uint[](contributionsCount);
+
+        uint index = 0;
+        for (uint i = 0; i < campaigns.length; i++) {
+            uint contributedAmount = campaignsByContributor[contributor][i];
+            if (contributedAmount > 0) {
+                contributorCampaigns[index] = campaigns[i];
+                contributorAmounts[index] = contributedAmount;
+                index++;
+            }
+        }
+
+        return (contributorCampaigns, contributorAmounts);
+    }
 
     function cancelCampaign(uint _campaignId) public {
         require(_campaignId < campaigns.length, "Campaign does not exist");
