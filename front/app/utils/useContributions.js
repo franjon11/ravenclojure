@@ -21,8 +21,8 @@ const useContributions = () => {
         .getContributions(accounts[0])
         .call( );
       
-      const campaigns = result[0]
-      const amounts =  result[1]
+      const campaigns = result[0];
+      const amounts =  result[1];
 
       const contributionsData = campaigns.map((campaign, index) => ({
         name: campaign.name,
