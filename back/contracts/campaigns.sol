@@ -48,7 +48,7 @@ contract Campaigns {
         return allCampaigns;
     }
 
-    function contribute(address _contributor, uint _campaignId) external payable { 
+    function contribute(uint _campaignId) external payable { 
         require(msg.value > 0, "Contribution must be greater than 0");
         require(_campaignId < campaigns.length, "Campaign does not exist");
         
@@ -56,13 +56,13 @@ contract Campaigns {
         require(campaign.state == CampaignState.Active, "Can only contribute to active campaigns");
 
         uint valueEther = msg.value/(1 ether);
-        if(campaignsByContributor[_contributor][_campaignId] == 0) {
-            contributorsByCampaignId[_campaignId].push(_contributor);
+        if(campaignsByContributor[msg.sender][_campaignId] == 0) {
+            contributorsByCampaignId[_campaignId].push(msg.sender);
         }
-        campaignsByContributor[_contributor][_campaignId] += msg.value;
+        campaignsByContributor[msg.sender][_campaignId] += msg.value;
         campaign.current_amount += valueEther;
 
-        emit ContributionReceived(_campaignId, valueEther, _contributor);
+        emit ContributionReceived(_campaignId, valueEther, msg.sender);
     }
 
 
