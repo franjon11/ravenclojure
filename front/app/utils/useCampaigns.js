@@ -31,6 +31,7 @@ const useCampaigns = () => {
 
   // Crear una nueva campaña
   const createNewCampaign = async (amount, daysRemaining, name) => {
+    console.log(userAccount);
     setLoading(true);
     setError(null);
     try {

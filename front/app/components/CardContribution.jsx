@@ -4,6 +4,7 @@ import { blue } from "@mui/material/colors";
 import BadgeCampaignState from "./BadgeCampaignState";
 
 const CardContribution = ({ contribution }) => {
+  console.log(contribution);
   return (
     <Card
       sx={{
@@ -11,19 +12,21 @@ const CardContribution = ({ contribution }) => {
         borderLeft: `5px solid ${blue[700]}`,
         width: 300,
         maxWidth: 300,
-      }}
-    >
+      }}>
       <CardContent>
-      <Typography variant="h6" sx={{ fontWeight: "bold", color: blue[900] }}>
+        <Typography variant='h6' sx={{ fontWeight: "bold", color: blue[900] }}>
           {contribution.name}
         </Typography>
-        <Typography variant="body1" sx={{ color: blue[700] }}>
-          Monto donado: {contribution.amount}
+        <Typography variant='body1' sx={{ color: blue[700] }}>
+          Monto donado: {contribution.amount_donated}
         </Typography>
-        <Typography variant="body1" sx={{ color: blue[700] }}>
-          Objetivo: {contribution.target}
+        <Typography variant='body1' sx={{ color: blue[700] }}>
+          Objetivo: {contribution.target_amount}
         </Typography>
-        <Typography variant="body2" sx={{ color: blue[700], mb: 1 }}>
+        <Typography variant='body1' sx={{ color: blue[700] }}>
+          Recaudado: {contribution.current_amount}
+        </Typography>
+        <Typography variant='body2' sx={{ color: blue[700], mb: 1 }}>
           Duración: {contribution.deadline} días
         </Typography>
         <BadgeCampaignState state={contribution.state} />
