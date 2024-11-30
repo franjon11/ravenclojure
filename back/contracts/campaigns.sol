@@ -28,9 +28,9 @@ contract Campaigns {
     mapping(uint => address[]) public contributorsByCampaignId;    
     mapping(address => mapping(uint => uint)) public campaignsByContributor;
 
-    constructor(address _rewardAddress) {
+    /*constructor(address _rewardAddress) {
         rewardContract = Reward(_rewardAddress);
-    }
+    }*/
     
     function createNewCampaign(uint _target_amount, uint _days_deadline, string memory _name) public {
         require(_target_amount > 0, "Target amount must be greater than zero ");
@@ -103,8 +103,8 @@ contract Campaigns {
             // Se realiza la transaccion al owner de la campaña
 
             uint totalAmount = campaign.target_amount;
-            for(uint i = 0; i < contributorsByCampaign[_campaingId].length; i++) {
-                address contributorAddress = contributorsByCampaign[_campaingId][i];
+            for(uint i = 0; i < contributorsByCampaignId[_campaingId].length; i++) {
+                address contributorAddress = contributorsByCampaignId[_campaingId][i];
                 uint donatedAmount = campaignsByContributor[contributorAddress][_campaingId];
                 _giveReward(contributorAddress, donatedAmount, totalAmount);
             }
@@ -129,7 +129,7 @@ contract Campaigns {
 
         rewardContract.mint(contributorAddress, tier, 1);
     }
-}
+
     function cancelCampaign(uint _campaignId) public {
         require(_campaignId < campaigns.length, "Campaign does not exist");
         Campaign storage campaign = campaigns[_campaignId];
