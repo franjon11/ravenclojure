@@ -12,34 +12,34 @@ const NavBar = () => {
   const { userAccount, connect } = useContext(UserContext);
 
   return (
-    <nav className="bg-gray-800 p-4 flex justify-between items-center">
-      <Link href="/" passHref>
-        <div className="flex items-center cursor-pointer">
+    <nav className='bg-gray-800 p-4 flex justify-between items-center'>
+      <Link href='/' passHref>
+        <div className='flex items-center cursor-pointer'>
           <Image
             src={logo}
-            alt="Logo"
+            alt='Logo'
             width={60}
             height={60}
-            className="mr-2 rounded-full"
+            className='mr-2 rounded-full'
           />
         </div>
       </Link>
 
-      <div className="flex space-x-4">
+      <div className='flex space-x-4'>
         {Object.entries(ROUTES).map(([key, { href, label }]) => (
-          <a
+          <Link
             key={key}
             href={href}
-            className="text-white px-3 py-2 rounded-md text-sm font-medium"
-          >
+            passHref
+            className='text-white px-3 py-2 rounded-md text-sm font-medium'>
             {label}
-          </a>
+          </Link>
         ))}
       </div>
 
-      <div className="flex items-center">
+      <div className='flex items-center'>
         {!userAccount ? (
-          <Button onClick={connect} variant="contained" color="primary">
+          <Button onClick={connect} variant='contained' color='primary'>
             Conectar con Metamask
           </Button>
         ) : (
@@ -47,8 +47,8 @@ const NavBar = () => {
             src={
               "https://avatar.iran.liara.run/public/boy?username=" + userAccount
             }
-            alt="User Avatar"
-            className="w-10 h-10 rounded-full"
+            alt='User Avatar'
+            className='w-10 h-10 rounded-full'
           />
         )}
       </div>

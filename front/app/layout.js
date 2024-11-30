@@ -23,15 +23,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es">
+    <html lang='es'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AlertContextProvider>
           <UserContextProvider>
             <NavBar />
 
-            <div className="mx-auto max-w-4xl px-4 py-8">
+            <div className='mx-auto max-w-4xl px-4 py-8'>
               <Container>{children}</Container>
             </div>
           </UserContextProvider>
