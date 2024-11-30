@@ -2,8 +2,10 @@ import React from "react";
 import { Card, CardContent, Typography, Button } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import BadgeCampaignState from "./BadgeCampaignState";
+import { calculateDaysRemaining } from "../utils/utils";
 
 const CardContribution = ({ contribution }) => {
+  const daysRemaining = calculateDaysRemaining(contribution.deadline);
   return (
     <Card
       sx={{
@@ -26,7 +28,7 @@ const CardContribution = ({ contribution }) => {
           Recaudado: {contribution.current_amount}
         </Typography>
         <Typography variant='body2' sx={{ color: blue[700], mb: 1 }}>
-          Duración: {contribution.deadline} días
+          Duración: {daysRemaining} días
         </Typography>
         <BadgeCampaignState state={contribution.state} />
       </CardContent>

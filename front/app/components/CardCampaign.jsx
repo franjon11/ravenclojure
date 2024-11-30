@@ -13,7 +13,8 @@ import {
 } from "@mui/material";
 import { blue, green } from "@mui/material/colors";
 import BadgeCampaignState from "./BadgeCampaignState";
-import { ethers } from "ethers"; // Importa ethers.js
+import { ethers } from "ethers";
+import { calculateDaysRemaining } from "../utils/utils";
 
 const CardCampaign = ({
   campaign,
@@ -48,6 +49,8 @@ const CardCampaign = ({
     campaign.current_amount.toString()
   );
 
+  const daysRemaining = calculateDaysRemaining(campaign.deadline);
+
   return (
     <>
       <Card
@@ -72,7 +75,7 @@ const CardCampaign = ({
             Monto recaudado: {currentAmountInEth} ETH
           </Typography>
           <Typography variant='body2' sx={{ color: blue[700], mb: 1 }}>
-            Duración: {campaign.deadline} días
+            Duración: {daysRemaining} días
           </Typography>
           <BadgeCampaignState state={campaign.state} />
         </CardContent>
@@ -90,7 +93,7 @@ const CardCampaign = ({
             Monto recaudado: {currentAmountInEth} ETH
           </Typography>
           <Typography variant='body1' sx={{ color: blue[700], mb: 2 }}>
-            Duración: {campaign.deadline} días
+            Duración: {daysRemaining} días
           </Typography>
           <BadgeCampaignState state={campaign.state} />
 
