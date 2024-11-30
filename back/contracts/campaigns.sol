@@ -36,7 +36,7 @@ contract Campaigns {
             newCampaignId, 
             _target_amount, 
             0, 
-            block.timestamp + (_days_deadline * 1 days), // Convert days to seconds
+            block.timestamp + (_days_deadline * 1 days),
             block.timestamp, 
             msg.sender, 
             CampaignState.Active
