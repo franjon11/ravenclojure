@@ -6,6 +6,81 @@
 	"output": {
 		"abi": [
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "campaignId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					}
+				],
+				"name": "CampaignCancelled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "campaignId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "contributor",
+						"type": "address"
+					}
+				],
+				"name": "ContributionReceived",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "campaignId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "target_amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_days_deadline",
+						"type": "uint256"
+					}
+				],
+				"name": "NewCampaign",
+				"type": "event"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -26,6 +101,11 @@
 				],
 				"name": "campaigns",
 				"outputs": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
 					{
 						"internalType": "uint256",
 						"name": "target_amount",
@@ -124,13 +204,14 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "_amount",
+						"name": "_campaignId",
 						"type": "uint256"
 					}
 				],
 				"name": "contribute",
 				"outputs": [],
-				"stateMutability": "nonpayable",
+
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -146,7 +227,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "contributorsByCampaign",
+				"name": "contributorsByCampaignId",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -163,6 +244,11 @@
 				"outputs": [
 					{
 						"components": [
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
 							{
 								"internalType": "uint256",
 								"name": "target_amount",
@@ -218,6 +304,67 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "contributor",
+						"type": "address"
+					}
+				],
+				"name": "getContributions",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "target_amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "current_amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "deadline",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "creationDate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "creator",
+								"type": "address"
+							},
+							{
+								"internalType": "enum Campaigns.CampaignState",
+								"name": "state",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct Campaigns.Campaign[]",
+						"name": "",
+						"type": "tuple[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "_target_amount",
 						"type": "uint256"
@@ -226,24 +373,16 @@
 						"internalType": "uint256",
 						"name": "_days_deadline",
 						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_name",
+						"type": "string"
 					}
 				],
 				"name": "setCampaign",
 				"outputs": [],
 				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "totalCampaigns",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
 				"type": "function"
 			}
 		],
