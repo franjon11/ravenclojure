@@ -4,7 +4,6 @@ import { blue } from "@mui/material/colors";
 import BadgeCampaignState from "./BadgeCampaignState";
 
 const CardContribution = ({ contribution }) => {
-  console.log(contribution);
   return (
     <Card
       sx={{

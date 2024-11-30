@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import Web3 from "web3";
 import { ABI, contractAddress } from "../constants/campaignsContract.js";
 import { UserContext } from "../providers/UserContextProvider";
+import { ethers } from "ethers";
 
 const web3 = new Web3("http://localhost:8545");
 const campaignsContract = new web3.eth.Contract(ABI, contractAddress);
@@ -31,12 +32,13 @@ const useCampaigns = () => {
 
   // Crear una nueva campaña
   const createNewCampaign = async (amount, daysRemaining, name) => {
-    console.log(userAccount);
     setLoading(true);
     setError(null);
     try {
+      console.log(amount);
+      const amountInWei = ethers.parseUnits(amount.toString(), "ether");
       await campaignsContract.methods
-        .createNewCampaign(amount, daysRemaining, name)
+        .createNewCampaign(amountInWei, daysRemaining, name)
         .send({ from: userAccount, gas: 3000000 });
       fetchCampaigns();
     } catch (err) {

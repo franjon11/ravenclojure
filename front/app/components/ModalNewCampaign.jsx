@@ -21,9 +21,8 @@ const ModalNewCampaign = ({
       onClose={() => {
         setOpenModal(false);
       }}
-      aria-labelledby="modal-title"
-      aria-describedby="modal-description"
-    >
+      aria-labelledby='modal-title'
+      aria-describedby='modal-description'>
       <Box
         sx={{
           position: "fixed",
@@ -35,55 +34,57 @@ const ModalNewCampaign = ({
           boxShadow: 24,
           p: 4,
           borderRadius: 2,
-        }}
-      >
+        }}>
         <Typography
-          id="modal-title"
-          variant="h6"
-          component="h2"
-          sx={{ mb: 2, color: "black" }}
-        >
+          id='modal-title'
+          variant='h6'
+          component='h2'
+          sx={{ mb: 2, color: "black" }}>
           Crear nueva Campaña
         </Typography>
         <TextField
           fullWidth
-          label="Nombre"
-          name="name"
-          variant="outlined"
+          label='Nombre'
+          name='name'
+          variant='outlined'
           sx={{ mb: 2 }}
           value={newCampaign.name}
           onChange={handleChange}
         />
         <TextField
-          type="number"
+          type='text'
           InputProps={{
-            endAdornment: <InputAdornment position="end">ETH</InputAdornment>,
+            endAdornment: <InputAdornment position='end'>ETH</InputAdornment>,
           }}
           fullWidth
-          label="Monto"
-          name="amount"
-          variant="outlined"
+          label='Monto'
+          name='amount'
+          variant='outlined'
           sx={{ mb: 2 }}
           value={newCampaign.amount}
-          onChange={handleChange}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (!isNaN(value) || value === "") {
+              handleChange(e);
+            }
+          }}
         />
         <TextField
           fullWidth
           InputLabelProps={{ shrink: true }}
-          label="Fecha límite"
-          name="deadline"
-          type="date"
-          variant="outlined"
+          label='Fecha límite'
+          name='deadline'
+          type='date'
+          variant='outlined'
           sx={{ mb: 2 }}
           value={newCampaign.deadline}
           onChange={handleChange}
         />
         <Button
-          variant="contained"
-          color="primary"
+          variant='contained'
+          color='primary'
           fullWidth
-          onClick={handleCreateCampaign}
-        >
+          onClick={handleCreateCampaign}>
           Crear Campaña
         </Button>
       </Box>
