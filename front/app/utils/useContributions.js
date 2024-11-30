@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import Web3 from "web3";
 import { ABI, contractAddress } from "../constants/campaignsContract.js";
 import { UserContext } from "../providers/UserContextProvider";
+import { ethers } from "ethers";
 
 const web3 = new Web3("http://localhost:8545");
 const campaignsContract = new web3.eth.Contract(ABI, contractAddress);
@@ -14,7 +15,6 @@ const useContributions = () => {
 
   // Obtener contribuciones desde el contrato
   const fetchContributions = async () => {
-    console.log(userAccount);
     setLoading(true);
     setError(null);
     try {
@@ -29,11 +29,11 @@ const useContributions = () => {
         creationDate: campaign.creationDate,
         creator: campaign.creator,
         name: campaign.name,
-        current_amount: campaign.current_amount,
+        current_amount: ethers.formatEther(campaign.current_amount.toString()),
         id_campaign: campaign.id_campaign,
         state: campaign.state,
-        target_amount: campaign.target_amount,
-        amount_donated: amounts[index],
+        target_amount: ethers.formatEther(campaign.target_amount.toString()),
+        amount_donated: ethers.formatEther(amounts[index].toString()),
         deadline: campaign.deadline,
       }));
 
@@ -51,9 +51,8 @@ const useContributions = () => {
     setLoading(true);
     setError(null);
 
-    console.log("El monto es", campaign_id, contribution_amount);
     try {
-      const valueInWei = Web3.utils.toWei(
+      const valueInWei = ethers.parseUnits(
         contribution_amount.toString(),
         "ether"
       );

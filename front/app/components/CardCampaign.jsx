@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { blue, green } from "@mui/material/colors";
 import BadgeCampaignState from "./BadgeCampaignState";
+import { ethers } from "ethers"; // Importa ethers.js
 
 const CardCampaign = ({
   campaign,
@@ -22,8 +23,6 @@ const CardCampaign = ({
   const [open, setOpen] = useState(false);
   const [showContributionInput, setShowContributionInput] = useState(false);
   const [contributionAmount, setContributionAmount] = useState("");
-
-  console.log(campaign);
 
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => {
@@ -41,6 +40,14 @@ const CardCampaign = ({
     }
   };
 
+  // Convierte montos de Wei a ETH
+  const targetAmountInEth = ethers.formatEther(
+    campaign.target_amount.toString()
+  );
+  const currentAmountInEth = ethers.formatEther(
+    campaign.current_amount.toString()
+  );
+
   return (
     <>
       <Card
@@ -49,10 +56,9 @@ const CardCampaign = ({
           borderLeft: `5px solid ${blue[700]}`,
           width: 300,
           maxWidth: 300,
-          cursor: "pointer", // Hace que la tarjeta parezca clickeable
+          cursor: "pointer",
         }}
-        onClick={handleOpenModal} // Abre el modal al hacer clic
-      >
+        onClick={handleOpenModal}>
         <CardContent>
           <Typography
             variant='h6'
@@ -60,7 +66,10 @@ const CardCampaign = ({
             {campaign.name}
           </Typography>
           <Typography variant='body1' sx={{ color: blue[700] }}>
-            Monto: {campaign.target_amount} ETH
+            Monto objetivo: {targetAmountInEth} ETH
+          </Typography>
+          <Typography variant='body1' sx={{ color: blue[700] }}>
+            Monto recaudado: {currentAmountInEth} ETH
           </Typography>
           <Typography variant='body2' sx={{ color: blue[700], mb: 1 }}>
             Duración: {campaign.deadline} días
@@ -75,7 +84,10 @@ const CardCampaign = ({
         </DialogTitle>
         <DialogContent>
           <Typography variant='body1' sx={{ color: blue[700], mb: 2 }}>
-            Monto objetivo: {campaign.target_amount} ETH
+            Monto objetivo: {targetAmountInEth} ETH
+          </Typography>
+          <Typography variant='body1' sx={{ color: blue[700], mb: 2 }}>
+            Monto recaudado: {currentAmountInEth} ETH
           </Typography>
           <Typography variant='body1' sx={{ color: blue[700], mb: 2 }}>
             Duración: {campaign.deadline} días
@@ -86,7 +98,8 @@ const CardCampaign = ({
             <Box mt={2}>
               <TextField
                 type='number'
-                label='Monto de contribución'
+                inputProps={{ step: "0.01" }}
+                label='Monto de contribución (ETH)'
                 fullWidth
                 value={contributionAmount}
                 onChange={(e) => setContributionAmount(e.target.value)}

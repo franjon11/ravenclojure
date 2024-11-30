@@ -8,8 +8,6 @@ import Link from "next/link";
 const ContributionsPage = () => {
   const { contributions } = useContributions();
 
-  console.log(contributions);
-
   return (
     <Box>
       {contributions.length === 0 ? (

@@ -19,6 +19,32 @@ export const ABI = [
     type: "event",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
+      },
+    ],
+    name: "cancelCampaign",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_campaignId",
+        type: "uint256",
+      },
+    ],
+    name: "contribute",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -42,6 +68,29 @@ export const ABI = [
     ],
     name: "ContributionReceived",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_target_amount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_days_deadline",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+    ],
+    name: "createNewCampaign",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     anonymous: false,
@@ -169,32 +218,6 @@ export const ABI = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_campaignId",
-        type: "uint256",
-      },
-    ],
-    name: "cancelCampaign",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_campaignId",
-        type: "uint256",
-      },
-    ],
-    name: "contribute",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
         name: "",
         type: "uint256",
       },
@@ -213,29 +236,6 @@ export const ABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_target_amount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_days_deadline",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "_name",
-        type: "string",
-      },
-    ],
-    name: "createNewCampaign",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -360,4 +360,4 @@ export const ABI = [
     type: "function",
   },
 ];
-export const contractAddress = "0x8b2488E1dcFB535A1E72662A7E5AD032999A8809";
+export const contractAddress = "0x378dEbad58eBAa62c76EB29730733125708fa434";
