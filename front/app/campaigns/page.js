@@ -4,11 +4,13 @@ import { Typography, Fab, Grid2 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { blue } from "@mui/material/colors";
 import useCampaigns from "../utils/useCampaigns";
+import useContributions from "../utils/useContributions";
 import ModalNewCampaign from "../components/ModalNewCampaign";
 import CardCampaign from "../components/CardCampaign";
 
 const CampaignsPage = () => {
   const { campaigns, createNewCampaign, cancelCampaign } = useCampaigns();
+  const { contribute } = useContributions();
   const [newCampaign, setNewCampaign] = useState({
     name: "",
     amount: "",
@@ -44,6 +46,10 @@ const CampaignsPage = () => {
     cancelCampaign(campaignId);
   };
 
+  const handleContributeCampaign = (campaign_id, contribution) => {
+    contribute(campaign_id, contribution);
+  };
+
   return (
     <>
       {campaigns.length === 0 ? (
@@ -57,6 +63,7 @@ const CampaignsPage = () => {
               <CardCampaign
                 campaign={campaign}
                 handleCancelCampaign={handleCancelCampaign}
+                handleContributeCampaign={handleContributeCampaign}
               />
             </Grid2>
           ))}
