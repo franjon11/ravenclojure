@@ -28,9 +28,9 @@ contract Campaigns {
     mapping(uint => address[]) public contributorsByCampaignId;    
     mapping(address => mapping(uint => uint)) public campaignsByContributor;
 
-    /*constructor(address _rewardAddress) {
+    constructor(address _rewardAddress) {
         rewardContract = Reward(_rewardAddress);
-    }*/
+    }
     
     function createNewCampaign(uint _target_amount, uint _days_deadline, string memory _name) public {
         require(_target_amount > 0, "Target amount must be greater than zero");
@@ -110,6 +110,26 @@ contract Campaigns {
         return (contributorCampaigns, contributorAmounts);
     }
 
+    function cancelCampaign(uint _campaignId) public {
+        require(_campaignId < campaigns.length, "Campaign does not exist");
+        Campaign storage campaign = campaigns[_campaignId];
+
+        require(campaign.creator == msg.sender, "Only the creator can cancel this campaign");
+        require(campaign.state == CampaignState.Active, "Campaign is not active");
+
+        campaign.state = CampaignState.Failed;
+
+        for(uint i = 0; i < contributorsByCampaignId[_campaignId].length; i++) {
+            address contributorAddress = contributorsByCampaignId[_campaignId][i];
+            uint amountDonated = campaignsByContributor[contributorAddress][_campaignId];
+            campaignsByContributor[contributorAddress][_campaignId] = 0;
+            payable(contributorAddress).transfer(amountDonated);
+        }
+
+        emit CampaignCancelled(_campaignId, campaign.name);
+    }
+
+
     function closeCampaing(uint _campaingId) public {
         Campaign memory campaign = campaigns[_campaingId];
         //_giveReward(contributorAddress, donatedAmount, totalAmount);
@@ -144,22 +164,14 @@ contract Campaigns {
         rewardContract.mint(contributorAddress, tier, 1);
     }
 
-    function cancelCampaign(uint _campaignId) public {
-        require(_campaignId < campaigns.length, "Campaign does not exist");
-        Campaign storage campaign = campaigns[_campaignId];
+    function getRewardsByContributor(address contributor) external view returns (uint256[4] memory) {
+        uint256[4] memory rewards;
+        rewards[0] = rewardContract.balanceOf(contributor, 0);
+        rewards[1] = rewardContract.balanceOf(contributor, 1);
+        rewards[2] = rewardContract.balanceOf(contributor, 2);
+        rewards[3] = rewardContract.balanceOf(contributor, 3);
 
-        require(campaign.creator == msg.sender, "Only the creator can cancel this campaign");
-        require(campaign.state == CampaignState.Active, "Campaign is not active");
-
-        campaign.state = CampaignState.Failed;
-
-        for(uint i = 0; i < contributorsByCampaignId[_campaignId].length; i++) {
-            address contributorAddress = contributorsByCampaignId[_campaignId][i];
-            uint amountDonated = campaignsByContributor[contributorAddress][_campaignId];
-            campaignsByContributor[contributorAddress][_campaignId] = 0;
-            payable(contributorAddress).transfer(amountDonated);
-        }
-
-        emit CampaignCancelled(_campaignId, campaign.name);
+        return rewards;
     }
 }
+
