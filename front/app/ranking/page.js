@@ -1,21 +1,22 @@
 "use client";
 import React from "react";
-import { Card, Box, Typography, Grid2 } from "@mui/material";
+import { Card, Box, Typography, Grid2, Stack, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import Image from "next/image";
 import bronce from "../Bronce.png";
 import plata from "../Plata.png";
 import oro from "../Oro.png";
 import diamante from "../Diamante.png";
+import useRewards from "../utils/useRewards";
 
 const cardData = [
-  { tier: "Bronce", image: bronce, amount: 0 },
-  { tier: "Plata", image: plata, amount: 0 },
-  { tier: "Oro", image: oro, amount: 0 },
-  { tier: "Diamante", image: diamante, amount: 0 },
+  { tier: "Bronce", image: bronce},
+  { tier: "Plata", image: plata},
+  { tier: "Oro", image: oro},
+  { tier: "Diamante", image: diamante},
 ];
 
-const TokenCard = ({ tier, image, amount }) => (
+const RewardCard = ({ tier, image, amount }) => (
   <Card
     sx={{
       width: 200,
@@ -47,16 +48,52 @@ const TokenCard = ({ tier, image, amount }) => (
   </Card>
 );
 
-const TokenLeaderboard = () => (
-  <Box>
-    <Grid2 container spacing={4} justifyContent="center">
-      {cardData.map(({ tier, image, amount }, index) => (
-        <Grid2 item key={index}>
-          <TokenCard tier={tier} image={image} amount={amount} />
-        </Grid2>
-      ))}
-    </Grid2>
-  </Box>
-);
+const RankingPage = () => {
+  const { userRewards, allRewards } = useRewards();
 
-export default TokenLeaderboard;
+  return (
+    <Box>
+      <Typography variant='h5' align='center' sx={{ mt: 4 }}>
+        Mis medallas
+      </Typography>
+      <Stack direction="row" justifyContent="center">
+        {cardData.map((card, index) => (
+        <RewardCard key={index} tier={card.tier} image={card.image} amount={userRewards[index]} />
+        ))}
+      </Stack>
+      <Typography variant='h5' align='center' sx={{ mt: 4 }}>
+        Ranking
+      </Typography>
+      <Table sx={{ maxWidth: 1200, margin: "0 auto", mt: 2, border: "1px solid #ccc" }}>
+        <TableHead>
+        <TableRow>
+            <TableCell align="center"><strong>Usuario</strong></TableCell>
+            <TableCell align="center"><strong>Bronce</strong></TableCell>
+            <TableCell align="center"><strong>Plata</strong></TableCell>
+            <TableCell align="center"><strong>Oro</strong></TableCell>
+            <TableCell align="center"><strong>Diamante</strong></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {allRewards && allRewards.length > 0 ? (
+            allRewards.map(({ address, rewards }, index) => (
+              <TableRow key={index}>
+                <TableCell align="center">{address}</TableCell>
+                {rewards.map((medals, index) => (
+                  <TableCell key={index} align="center">{medals}</TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} align="center">No hay usuarios</TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+
+      </Table>
+    </Box>
+  );
+};
+
+export default RankingPage;
