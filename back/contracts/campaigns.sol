@@ -19,7 +19,7 @@ contract Campaigns {
     uint public campaign_id = 0;
 
     event NewCampaign(uint campaignId, string name, uint target_amount, uint _days_deadline);
-    event CampaignCancelled(uint campaignId, string name);
+    event CampaignChangeState(uint campaignId, uint timestamp, CampaignState state);
     event ContributionReceived(uint campaignId, uint amount, address contributor);
 
     Campaign[] public campaigns;
@@ -76,6 +76,7 @@ contract Campaigns {
 
         if (campaign.current_amount >= campaign.target_amount) {
             campaign.state = CampaignState.Succeful;
+            closeCampaign(_campaignId);
         }
     }
 
@@ -120,6 +121,41 @@ contract Campaigns {
             payable(contributorAddress).transfer(amountDonated);
         }
 
-        emit CampaignCancelled(_campaignId, campaign.name);
+        emit CampaignChangeState(_campaignId, block.timestamp, CampaignState.Failed);
+    }
+
+    function closeCampaign(uint _campaignId) private {
+        Campaign storage campaign = campaigns[_campaignId];
+
+        if (campaign.state == CampaignState.Failed) return;
+        if (campaign.state == CampaignState.Succeful) {
+            emit CampaignChangeState(_campaignId, block.timestamp, CampaignState.Succeful);
+
+            // entregar rewards
+
+            payable(campaign.creator).transfer(campaign.target_amount);
+        }
+        if (campaign.state == CampaignState.Active) {
+            if (campaign.deadline < campaign.creationDate) {
+                if (campaign.current_amount >= campaign.target_amount) {
+                    campaign.state = CampaignState.Succeful;
+                    closeCampaign(_campaignId);
+                } 
+                else {
+                    campaign.state = CampaignState.Failed;
+                    emit CampaignChangeState(_campaignId, block.timestamp, CampaignState.Failed);
+                }
+            }
+        }
+    }
+
+    function setRemainingTime() public {
+        for(uint i = 0; i < campaigns.length; i++) {
+            Campaign storage campaign = campaigns[i];
+            if (campaign.state == CampaignState.Active) {
+                campaign.deadline -= (block.timestamp - campaign.creationDate);
+                closeCampaign(i);
+            }
+        }
     }
 }
