@@ -82,6 +82,7 @@ contract Campaigns {
 
         if (campaign.current_amount >= campaign.target_amount) {
             campaign.state = CampaignState.Succeful;
+            closeCampaing(_campaignId);
         }
     }
 
@@ -129,23 +130,16 @@ contract Campaigns {
         emit CampaignCancelled(_campaignId, campaign.name);
     }
 
-
-    function closeCampaing(uint _campaingId) public {
+    function closeCampaing(uint _campaingId) internal {
         Campaign memory campaign = campaigns[_campaingId];
-        //_giveReward(contributorAddress, donatedAmount, totalAmount);
-        if(campaign.state == CampaignState.Succeful) {
-            // Se realiza la transaccion al owner de la campaña
 
-            uint totalAmount = campaign.target_amount;
-            for(uint i = 0; i < contributorsByCampaignId[_campaingId].length; i++) {
-                address contributorAddress = contributorsByCampaignId[_campaingId][i];
-                uint donatedAmount = campaignsByContributor[contributorAddress][_campaingId];
-                _giveReward(contributorAddress, donatedAmount, totalAmount);
-            }
-            
-        } else {
-            // Se devuelve las donaciones a cada uno de los contribuyentes
+        uint totalAmount = campaign.target_amount;
+        for(uint i = 0; i < contributorsByCampaignId[_campaingId].length; i++) {
+            address contributorAddress = contributorsByCampaignId[_campaingId][i];
+            uint donatedAmount = campaignsByContributor[contributorAddress][_campaingId];
+            _giveReward(contributorAddress, donatedAmount, totalAmount);
         }
+        payable(campaign.creator).transfer(campaign.current_amount);
     }
 
     function _giveReward(address contributorAddress, uint donatedAmount, uint totalAmount) internal {

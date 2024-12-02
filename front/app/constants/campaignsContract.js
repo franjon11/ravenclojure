@@ -1,3 +1,4 @@
+export const contractAddress = "0x83bA4be8EE64e423fA733060e8Abf8F5b4C08c88";
 export const ABI = [
 	{
 		inputs: [
@@ -185,19 +186,6 @@ export const ABI = [
 			}
 		],
 		name: "cancelCampaign",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function"
-	},
-	{
-		inputs: [
-			{
-				internalType: "uint256",
-				name: "_campaingId",
-				type: "uint256"
-			}
-		],
-		name: "closeCampaing",
 		outputs: [],
 		stateMutability: "nonpayable",
 		type: "function"
@@ -401,19 +389,23 @@ export const ABI = [
 		],
 		stateMutability: "view",
 		type: "function"
-	},
-	{
-		inputs: [],
-		name: "rewardContract",
-		outputs: [
-			{
-				internalType: "contract Reward",
-				name: "",
-				type: "address"
-			}
-		],
-		stateMutability: "view",
-		type: "function"
+  },
+  {
+    inputs: [],
+    name: "rewardContract",
+    outputs: [
+            {
+                    internalType: "contract Reward",
+                    name: "",
+                    type: "address"
+            }
+    ],
+    stateMutability: "view",
+    type: "function"
 	}
-];
-export const contractAddress = "0x9e861e375ED943aC01279E8A0670bf40713B2209";
+]
+
+
+
+
+

@@ -1,11 +1,12 @@
 import React from "react";
 import { Chip } from "@mui/material";
+import { MAP_STATES, MAP_STATES_COLORS } from "../utils/utils";
 
 const BadgeCampaignState = ({ state }) => {
   return (
     <Chip
-      label={state === 0n ? "Activa" : "Vencida"}
-      color={state === 0n ? "success" : "error"}
+      label={MAP_STATES[state]}
+      color={MAP_STATES_COLORS[state]}
       sx={{ mt: 1 }}
     />
   );

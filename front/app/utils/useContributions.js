@@ -3,20 +3,18 @@ import Web3 from "web3";
 import { ABI, contractAddress } from "../constants/campaignsContract.js";
 import { UserContext } from "../providers/UserContextProvider";
 import { ethers } from "ethers";
+import { AlertContext } from "../providers/AlertContextProvider.jsx";
 
-const web3 = new Web3("http://localhost:8545");
+const web3 = new Web3("http://localhost:7545");
 const campaignsContract = new web3.eth.Contract(ABI, contractAddress);
 
 const useContributions = () => {
   const [contributions, setContributions] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const { userAccount } = useContext(UserContext);
+  const { showError } = useContext(AlertContext);
 
   // Obtener contribuciones desde el contrato
   const fetchContributions = async () => {
-    setLoading(true);
-    setError(null);
     try {
       const result = await campaignsContract.methods
         .getContributions(userAccount)
@@ -39,18 +37,12 @@ const useContributions = () => {
 
       setContributions(contributionsData);
     } catch (err) {
-      setError("Error al obtener las contribuciones");
-      console.error(err);
-    } finally {
-      setLoading(false);
+      showError("Error al obtener las contribuciones");
     }
   };
 
   // Contribuir a campaña
   const contribute = async (campaign_id, contribution_amount) => {
-    setLoading(true);
-    setError(null);
-
     try {
       const valueInWei = ethers.parseUnits(
         contribution_amount.toString(),
@@ -62,22 +54,17 @@ const useContributions = () => {
         .send({ from: userAccount, gas: 3000000, value: valueInWei });
       fetchContributions();
     } catch (err) {
-      setError("Error al obtener las contribuciones");
-      console.error(err);
-    } finally {
-      setLoading(false);
+      showError("No podes contribuir a tu propia campaña");
     }
   };
 
   useEffect(() => {
-    fetchContributions();
-  }, []);
+    if (userAccount) fetchContributions();
+  }, [userAccount]);
 
   return {
     contributions,
     contribute,
-    loading,
-    error,
   };
 };
 

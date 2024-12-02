@@ -11,10 +11,14 @@ import {
   Box,
   TextField,
 } from "@mui/material";
-import { blue, green } from "@mui/material/colors";
+import { blue, green, red } from "@mui/material/colors";
 import BadgeCampaignState from "./BadgeCampaignState";
 import { ethers } from "ethers";
-import { calculateDaysRemaining } from "../utils/utils";
+import {
+  calculateDaysRemaining,
+  STATES,
+  timestampToDate,
+} from "../utils/utils";
 
 const CardCampaign = ({
   campaign,
@@ -50,59 +54,77 @@ const CardCampaign = ({
   );
 
   const daysRemaining = calculateDaysRemaining(campaign.deadline);
+  const diaCierre = timestampToDate(campaign.deadline);
+
+  const colorBorder = () => {
+    if (campaign.state === STATES.ACTIVE) {
+      return blue[700];
+    } else if (campaign.state === STATES.SUCCESSFUL) {
+      return green[700];
+    } else {
+      return red[700];
+    }
+  };
 
   return (
     <>
       <Card
         sx={{
-          backgroundColor: blue[30],
-          borderLeft: `5px solid ${blue[700]}`,
+          borderLeft: `5px solid ${colorBorder()}`,
           width: 300,
           maxWidth: 300,
           cursor: "pointer",
         }}
-        onClick={handleOpenModal}>
+        onClick={handleOpenModal}
+      >
         <CardContent>
-          <Typography
-            variant='h6'
-            sx={{ fontWeight: "bold", color: blue[900] }}>
+          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
             {campaign.name}
           </Typography>
-          <Typography variant='body1' sx={{ color: blue[700] }}>
+          <Typography variant="body1">
             Monto objetivo: {targetAmountInEth} ETH
           </Typography>
-          <Typography variant='body1' sx={{ color: blue[700] }}>
+          <Typography variant="body1">
             Monto recaudado: {currentAmountInEth} ETH
           </Typography>
-          <Typography variant='body2' sx={{ color: blue[700], mb: 1 }}>
-            Duración: {daysRemaining} días
-          </Typography>
+          <p>
+            <Typography variant="overline" sx={{ mb: 1 }}>
+              {daysRemaining} días restantes
+            </Typography>
+          </p>
+          <em>
+            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+              Cierra el {diaCierre}
+            </Typography>
+          </em>
           <BadgeCampaignState state={campaign.state} />
         </CardContent>
       </Card>
 
-      <Dialog open={open} onClose={handleCloseModal} fullWidth maxWidth='sm'>
+      <Dialog open={open} onClose={handleCloseModal} fullWidth maxWidth="sm">
         <DialogTitle sx={{ fontWeight: "bold", color: blue[900] }}>
           {campaign.name}
         </DialogTitle>
         <DialogContent>
-          <Typography variant='body1' sx={{ color: blue[700], mb: 2 }}>
+          <Typography variant="body1" sx={{ color: blue[700], mb: 2 }}>
             Monto objetivo: {targetAmountInEth} ETH
           </Typography>
-          <Typography variant='body1' sx={{ color: blue[700], mb: 2 }}>
+          <Typography variant="body1" sx={{ color: blue[700], mb: 2 }}>
             Monto recaudado: {currentAmountInEth} ETH
           </Typography>
-          <Typography variant='body1' sx={{ color: blue[700], mb: 2 }}>
-            Duración: {daysRemaining} días
-          </Typography>
+          <p>
+            <Typography variant="overline" sx={{ color: blue[700], mb: 2 }}>
+              {daysRemaining} días restantes
+            </Typography>
+          </p>
           <BadgeCampaignState state={campaign.state} />
 
           {showContributionInput && (
             <Box mt={2}>
               <TextField
-                type='number'
+                type="number"
                 inputProps={{ step: "0.01" }}
-                label='Monto de contribución (ETH)'
+                label="Monto de contribución (ETH)"
                 fullWidth
                 value={contributionAmount}
                 onChange={(e) => setContributionAmount(e.target.value)}
@@ -113,27 +135,31 @@ const CardCampaign = ({
         </DialogContent>
         <DialogActions>
           <Button
-            variant='contained'
-            color='error'
+            variant="contained"
+            color="error"
             onClick={() => {
               handleCancelCampaign(campaign.id_campaign);
               handleCloseModal();
             }}
-            disabled={campaign.state === 2n}>
+            disabled={campaign.state !== STATES.ACTIVE}
+          >
             Cancelar Campaña
           </Button>
           {showContributionInput ? (
             <Button
-              variant='contained'
+              variant="contained"
               sx={{ backgroundColor: green[700] }}
-              onClick={handleContribute}>
+              onClick={handleContribute}
+            >
               Confirmar Contribución
             </Button>
           ) : (
             <Button
-              variant='contained'
+              variant="contained"
               sx={{ backgroundColor: green[700] }}
-              onClick={() => setShowContributionInput(true)}>
+              onClick={() => setShowContributionInput(true)}
+              disabled={campaign.state !== STATES.ACTIVE}
+            >
               Contribuir
             </Button>
           )}
