@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.26+commit.8a97fa7a"
+		"version": "0.8.19+commit.7dd6d404"
 	},
 	"language": "Solidity",
 	"output": {
@@ -9,19 +9,25 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": false,
+						"indexed": true,
 						"internalType": "uint256",
 						"name": "campaignId",
 						"type": "uint256"
 					},
 					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "timestamp",
+						"type": "uint256"
+					},
+					{
 						"indexed": false,
-						"internalType": "string",
-						"name": "name",
-						"type": "string"
+						"internalType": "enum Campaigns.CampaignState",
+						"name": "state",
+						"type": "uint8"
 					}
 				],
-				"name": "CampaignCancelled",
+				"name": "CampaignChangeState",
 				"type": "event"
 			},
 			{
@@ -53,7 +59,7 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": false,
+						"indexed": true,
 						"internalType": "uint256",
 						"name": "campaignId",
 						"type": "uint256"
@@ -73,12 +79,31 @@
 					{
 						"indexed": false,
 						"internalType": "uint256",
-						"name": "_days_deadline",
+						"name": "days_deadline",
 						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "creator",
+						"type": "address"
 					}
 				],
 				"name": "NewCampaign",
 				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "campaign_id",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
 				"inputs": [
@@ -94,6 +119,11 @@
 						"internalType": "string",
 						"name": "name",
 						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id_campaign",
+						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
@@ -169,11 +199,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_contributor",
-						"type": "address"
-					},
-					{
 						"internalType": "uint256",
 						"name": "_campaignId",
 						"type": "uint256"
@@ -209,6 +234,29 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_target_amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_days_deadline",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_name",
+						"type": "string"
+					}
+				],
+				"name": "createNewCampaign",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "getCampaigns",
 				"outputs": [
@@ -218,6 +266,11 @@
 								"internalType": "string",
 								"name": "name",
 								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "id_campaign",
+								"type": "uint256"
 							},
 							{
 								"internalType": "uint256",
@@ -277,6 +330,11 @@
 							},
 							{
 								"internalType": "uint256",
+								"name": "id_campaign",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
 								"name": "target_amount",
 								"type": "uint256"
 							},
@@ -318,29 +376,6 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_target_amount",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_days_deadline",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "_name",
-						"type": "string"
-					}
-				],
-				"name": "setCampaign",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -358,24 +393,24 @@
 		"compilationTarget": {
 			"back/contracts/campaigns.sol": "Campaigns"
 		},
-		"evmVersion": "cancun",
+		"evmVersion": "paris",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
 	},
 	"sources": {
 		"back/contracts/campaigns.sol": {
-			"keccak256": "0xf61189302c77fbbb1e81839db0ef56b6dfdd12f3f4602bfbd7885fcf05fb4b3f",
+			"keccak256": "0x93cb59ffecd1fa543f3475661b0bfaab6957515757a04e6fdd967ba2c7d599e5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://241324b9e5b31e39f0fa634021ec74df3ee8a9aed8c4a24a4590339b4aefef58",
-				"dweb:/ipfs/QmcDMdxhfA6v8wcGDskcUS3UnoHs6B9V89UJnjAmv1FDcx"
+				"bzz-raw://dd9b0d113470e6553c191445d245e4ae1aa5337237fbe298a8534b5b622e11fd",
+				"dweb:/ipfs/QmXpsBicXZFquGx1DJA4s7avPZHCjpyGfo1fwbnoEsGiuK"
 			]
 		}
 	},

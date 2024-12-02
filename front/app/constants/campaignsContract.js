@@ -1,21 +1,28 @@
+export const contractAddress = "0x83bA4be8EE64e423fA733060e8Abf8F5b4C08c88";
 export const ABI = [
   {
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "campaignId",
         type: "uint256",
       },
       {
+        indexed: true,
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+      {
         indexed: false,
-        internalType: "string",
-        name: "name",
-        type: "string",
+        internalType: "enum Campaigns.CampaignState",
+        name: "state",
+        type: "uint8",
       },
     ],
-    name: "CampaignCancelled",
+    name: "CampaignChangeState",
     type: "event",
   },
   {
@@ -96,7 +103,7 @@ export const ABI = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "campaignId",
         type: "uint256",
@@ -116,12 +123,25 @@ export const ABI = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "_days_deadline",
+        name: "days_deadline",
         type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "creator",
+        type: "address",
       },
     ],
     name: "NewCampaign",
     type: "event",
+  },
+  {
+    inputs: [],
+    name: "setRemainingTime",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [],
@@ -360,4 +380,3 @@ export const ABI = [
     type: "function",
   },
 ];
-export const contractAddress = "0x0633DfCCD3A556DE5860FeC620f616d1D48e01Dc";

@@ -53,7 +53,7 @@ const CampaignsPage = () => {
   return (
     <>
       {campaigns.length === 0 ? (
-        <Typography variant='h5' align='center' sx={{ mt: 4 }}>
+        <Typography variant="h5" align="center" sx={{ mt: 4 }}>
           No hay campañas activas para donar
         </Typography>
       ) : (
@@ -70,8 +70,8 @@ const CampaignsPage = () => {
         </Grid2>
       )}
       <Fab
-        color='primary'
-        aria-label='add'
+        color="primary"
+        aria-label="add"
         sx={{
           position: "fixed",
           bottom: 16,
@@ -81,7 +81,8 @@ const CampaignsPage = () => {
         }}
         onClick={() => {
           setOpenModal(true);
-        }}>
+        }}
+      >
         <AddIcon />
       </Fab>
 

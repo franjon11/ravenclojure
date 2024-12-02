@@ -11,7 +11,7 @@ const ContributionsPage = () => {
   return (
     <Box>
       {contributions.length === 0 ? (
-        <Typography variant='h5' align='center' sx={{ mt: 4 }}>
+        <Typography variant="h5" align="center" sx={{ mt: 4 }}>
           No has contribuido a ninguna campaña
         </Typography>
       ) : (
@@ -24,21 +24,23 @@ const ContributionsPage = () => {
         </Grid2>
       )}
       <Box
-        display='flex'
-        flexDirection='column'
-        alignItems='center'
-        justifyContent='center'
-        textAlign='center'
-        height='20vh'>
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        textAlign="center"
+        height="20vh"
+      >
         <Button
           component={Link}
-          href='/campaigns'
-          variant='contained'
-          color='primary'
-          size='large'
+          href="/campaigns"
+          variant="contained"
+          color="primary"
+          size="large"
           sx={{
             marginTop: 4,
-          }}>
+          }}
+        >
           Ver campañas existentes
         </Button>
       </Box>
