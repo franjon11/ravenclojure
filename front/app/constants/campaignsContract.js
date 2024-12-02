@@ -1,4 +1,4 @@
-export const contractAddress = "0x83bA4be8EE64e423fA733060e8Abf8F5b4C08c88";
+export const contractAddress = "0xe76F9535D7F8fF3e69d73B5cD939D87f48684183";
 export const ABI = [
 	{
 		inputs: [
@@ -374,38 +374,52 @@ export const ABI = [
 	{
 		inputs: [
 			{
-				internalType: "address",
-				name: "contributor",
-				type: "address"
+				internalType: "uint256",
+				name: "campaignId",
+				type: "uint256"
 			}
 		],
-		name: "getRewardsByContributor",
+		name: "getContributorsByCampaign",
 		outputs: [
 			{
-				internalType: "uint256[4]",
+				internalType: "address[]",
 				name: "",
-				type: "uint256[4]"
+				type: "address[]"
 			}
 		],
 		stateMutability: "view",
 		type: "function"
+	},
+	{
+		inputs: [
+			{
+				internalType: "address",
+        name: "contributor",
+        type: "address"
+      }
+    ],
+    name: "getRewardsByContributor",
+    outputs: [
+      {
+        internalType: "uint256[4]",
+        name: "",
+        type: "uint256[4]"
+      }
+    ],
+        stateMutability: "view",
+        type: "function"
   },
   {
     inputs: [],
     name: "rewardContract",
     outputs: [
-            {
-                    internalType: "contract Reward",
-                    name: "",
-                    type: "address"
-            }
+      {
+        internalType: "contract Reward",
+        name: "",
+        type: "address"
+      }
     ],
     stateMutability: "view",
     type: "function"
-	}
+  }
 ]
-
-
-
-
-

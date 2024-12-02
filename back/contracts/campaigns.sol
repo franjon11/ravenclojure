@@ -167,5 +167,9 @@ contract Campaigns {
 
         return rewards;
     }
+
+    function getContributorsByCampaign(uint256 campaignId) public view returns (address[] memory) {
+        return contributorsByCampaignId[campaignId];
+    }
 }
 

@@ -4,7 +4,7 @@ import { ABI, contractAddress } from "../constants/campaignsContract.js";
 import { UserContext } from "../providers/UserContextProvider";
 import { ethers } from "ethers";
 
-const web3 = new Web3("http://localhost:8545");
+const web3 = new Web3("http://localhost:7545");
 const campaignsContract = new web3.eth.Contract(ABI, contractAddress);
 
 const useRewards = () => {
@@ -40,13 +40,14 @@ const useRewards = () => {
         .call();
       const addresses = new Set();
 
-      for (let i = 0; i < campaigns; i++) {
+      for (const campaign of campaigns) {
+        const { id_campaign } = campaign;
         const contributors = await campaignsContract.methods
-          .contributorsByCampaignId(i)
+          .getContributorsByCampaign(id_campaign)
           .call();
         contributors.forEach((address) => addresses.add(address));
       }
-
+      
       const allRewardsData = await Promise.all(
         Array.from(addresses).map(async (address) => {
           const rewards = await campaignsContract.methods
