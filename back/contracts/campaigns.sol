@@ -182,5 +182,12 @@ contract Campaigns {
         }
     }
 
+    function getRewardsByContributor(address contributor) external view returns (uint256[4] memory) {
+        return rewardContract.balanceOf(contributor);
+    }
+
+    function getRanking() external view returns (address[] memory, uint[] memory, uint[4][] memory ) {
+        return rewardContract.getContributorRanking();
+    }
 
 }
