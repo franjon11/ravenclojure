@@ -9,8 +9,8 @@ import ModalNewCampaign from "../components/ModalNewCampaign";
 import CardCampaign from "../components/CardCampaign";
 
 const CampaignsPage = () => {
-  const { campaigns, createNewCampaign, cancelCampaign } = useCampaigns();
-  const { contribute } = useContributions();
+  const { campaigns, createNewCampaign, cancelCampaign, contribute } =
+    useCampaigns();
   const [newCampaign, setNewCampaign] = useState({
     name: "",
     amount: "",

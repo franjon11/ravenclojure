@@ -1,16 +1,16 @@
-export const contractAddress = "0x83bA4be8EE64e423fA733060e8Abf8F5b4C08c88";
+export const contractAddress = "0xfc97659198D13A0d0a62DD5dA6c89c9d28102C2E";
 export const ABI = [
   {
     anonymous: false,
     inputs: [
       {
-        indexed: true,
+        indexed: false,
         internalType: "uint256",
         name: "campaignId",
         type: "uint256",
       },
       {
-        indexed: true,
+        indexed: false,
         internalType: "uint256",
         name: "timestamp",
         type: "uint256",
@@ -103,7 +103,7 @@ export const ABI = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
+        indexed: false,
         internalType: "uint256",
         name: "campaignId",
         type: "uint256",
@@ -123,14 +123,8 @@ export const ABI = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "days_deadline",
+        name: "_days_deadline",
         type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "creator",
-        type: "address",
       },
     ],
     name: "NewCampaign",

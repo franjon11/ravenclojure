@@ -41,30 +41,12 @@ const useContributions = () => {
     }
   };
 
-  // Contribuir a campaña
-  const contribute = async (campaign_id, contribution_amount) => {
-    try {
-      const valueInWei = ethers.parseUnits(
-        contribution_amount.toString(),
-        "ether"
-      );
-
-      await campaignsContract.methods
-        .contribute(campaign_id)
-        .send({ from: userAccount, gas: 3000000, value: valueInWei });
-      fetchContributions();
-    } catch (err) {
-      showError("No podes contribuir a tu propia campaña");
-    }
-  };
-
   useEffect(() => {
     if (userAccount) fetchContributions();
   }, [userAccount]);
 
   return {
     contributions,
-    contribute,
   };
 };
 
