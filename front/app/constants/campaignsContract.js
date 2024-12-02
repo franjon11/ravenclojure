@@ -1,5 +1,16 @@
-export const contractAddress = "0xfc97659198D13A0d0a62DD5dA6c89c9d28102C2E";
+export const contractAddress = "0xe291bea61eeeF8778fb755770E62E5c12b3e310C";
 export const ABI = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_rewardsAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
   {
     anonymous: false,
     inputs: [
@@ -368,6 +379,48 @@ export const ABI = [
         internalType: "uint256[]",
         name: "",
         type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getRanking",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[4][]",
+        name: "",
+        type: "uint256[4][]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "contributor",
+        type: "address",
+      },
+    ],
+    name: "getRewardsByContributor",
+    outputs: [
+      {
+        internalType: "uint256[4]",
+        name: "",
+        type: "uint256[4]",
       },
     ],
     stateMutability: "view",

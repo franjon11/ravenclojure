@@ -5,7 +5,7 @@ import { UserContext } from "../providers/UserContextProvider";
 import { ethers } from "ethers";
 import { AlertContext } from "../providers/AlertContextProvider.jsx";
 
-const web3 = new Web3("http://localhost:7545");
+const web3 = new Web3("http://localhost:8545");
 const campaignsContract = new web3.eth.Contract(ABI, contractAddress);
 
 const useContributions = () => {

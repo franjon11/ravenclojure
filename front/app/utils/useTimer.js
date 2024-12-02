@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import { ABI, contractAddress } from "../constants/campaignsContract";
 
-const web3 = new Web3("http://localhost:7545");
+const web3 = new Web3("http://localhost:8545");
 const campaignsContract = new web3.eth.Contract(ABI, contractAddress);
 
 const useTimer = (userAccount, showError) => {
