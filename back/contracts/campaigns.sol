@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "./campaignsRewards.sol";
+
 contract Campaigns {
 
     enum CampaignState { Active, Succeful, Failed }
@@ -25,6 +27,12 @@ contract Campaigns {
     Campaign[] public campaigns;
     mapping(uint => address[]) public contributorsByCampaignId;    
     mapping(address => mapping(uint => uint)) public campaignsByContributor;
+
+    CampaignRewards private rewardContract;
+
+    constructor(address _rewardsAddress) {
+        rewardContract = CampaignRewards(_rewardsAddress);
+    }
     
     function createNewCampaign(uint _target_amount, uint _days_deadline, string memory _name) public {
         require(_target_amount > 0, "Target amount must be greater than zero");
@@ -80,7 +88,6 @@ contract Campaigns {
         }
     }
 
-
     function getContributions(address contributor) public view returns (Campaign[] memory, uint[] memory) {
         uint contributionsCount = 0;
         for(uint i = 0; i < campaigns.length; i++) {
@@ -132,6 +139,7 @@ contract Campaigns {
             emit CampaignChangeState(_campaignId, block.timestamp, CampaignState.Succeful);
 
             // entregar rewards
+            distributeRewards(_campaignId);
 
             payable(campaign.creator).transfer(campaign.target_amount);
         }
@@ -158,4 +166,21 @@ contract Campaigns {
             }
         }
     }
+
+    function distributeRewards(uint _campaignId) private {
+        Campaign storage campaign = campaigns[_campaignId];
+        uint totalAmount = campaign.current_amount;
+
+        for (uint i = 0; i < contributorsByCampaignId[_campaignId].length; i++) {
+            address contributor = contributorsByCampaignId[_campaignId][i];
+            uint donatedAmount = campaignsByContributor[contributor][_campaignId];
+
+            uint percentage = (donatedAmount * 100) / totalAmount;
+
+            // Llamamos a mintReward con los dos argumentos requeridos
+            rewardContract.mintReward(contributor, percentage);
+        }
+    }
+
+
 }
