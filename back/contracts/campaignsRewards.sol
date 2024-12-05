@@ -2,9 +2,10 @@
 pragma solidity ^0.8.0;
 
 import "./ownable.sol";
-import "./erc721.sol";
+import "./erc165.sol";
+import "./ierc721.sol";
 
-contract CampaignRewards is Ownable, ERC721 {
+contract CampaignRewards is Ownable, ERC165, IERC721 {
 
     enum Tier { BRONZE, SILVER, GOLD, DIAMOND }
 
@@ -13,7 +14,24 @@ contract CampaignRewards is Ownable, ERC721 {
     mapping(address => uint256[]) private _ownerTokens; // Relación entre dueño y sus tokens
     mapping(uint256 => Tier) public tokenMetadata; // Metadata asociada a cada token (descripción de la medalla)
 
+    string private _name = "CampaignReward"; // Nombre del token
+    string private _symbol = "CRW"; // Símbolo del token
+
     event RewardMinted(uint256 tokenId, address recipient, Tier metadata);
+
+    constructor() {
+        _registerInterface(type(IERC721).interfaceId);
+    }
+
+    // Nombre del token
+    function name() public view override returns (string memory) {
+        return _name;
+    }
+
+    // Símbolo del token
+    function symbol() public view override returns (string memory) {
+        return _symbol;
+    }
 
     function getContributorRanking() external view returns (address[] memory, uint[] memory, uint[4][] memory) {
         uint contributorCount = _tokenIds; // Usamos el número de tokens como indicador de contribuyentes
@@ -167,6 +185,7 @@ contract CampaignRewards is Ownable, ERC721 {
         _ownerTokens[recipient].push(newTokenId);
         tokenMetadata[newTokenId] = tier;
 
+        emit Transfer(address(0), recipient, newTokenId);
         emit RewardMinted(newTokenId, recipient, tier);
     }
 
@@ -189,5 +208,27 @@ contract CampaignRewards is Ownable, ERC721 {
                 return;
             }
         }
+    }
+
+    function tokenURI(uint256 _tokenId)  external view override returns (string memory) {
+        require(_tokenOwners[_tokenId] != address(0), "Token does not exist");
+    
+        string memory metadata = "";
+        Tier tier = tokenMetadata[_tokenId];
+        if (tier == Tier.BRONZE) {
+            metadata = "bronze";
+        }
+        if (tier == Tier.SILVER) {
+            metadata = "silver";
+        }
+        if (tier == Tier.GOLD) {
+            metadata = "gold";
+        }
+        if (tier == Tier.DIAMOND) {
+            metadata = "diamond";
+        }
+         
+        // Devuelve una URL con los metadatos del token
+        return string(abi.encodePacked("http://localhost:3000/metadata/", metadata, ".json"));
     }
 }

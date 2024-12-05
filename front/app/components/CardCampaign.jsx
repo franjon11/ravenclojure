@@ -22,6 +22,7 @@ import {
 
 const CardCampaign = ({
   campaign,
+  userAccount,
   handleCancelCampaign,
   handleContributeCampaign,
 }) => {
@@ -65,7 +66,7 @@ const CardCampaign = ({
       return red[700];
     }
   };
-
+  const creator = campaign.creator.toLowerCase();
   return (
     <>
       <Card
@@ -141,7 +142,9 @@ const CardCampaign = ({
               handleCancelCampaign(campaign.id_campaign);
               handleCloseModal();
             }}
-            disabled={campaign.state !== STATES.ACTIVE}
+            disabled={
+              campaign.state !== STATES.ACTIVE || userAccount !== creator
+            }
           >
             Cancelar Campaña
           </Button>
@@ -158,7 +161,9 @@ const CardCampaign = ({
               variant="contained"
               sx={{ backgroundColor: green[700] }}
               onClick={() => setShowContributionInput(true)}
-              disabled={campaign.state !== STATES.ACTIVE}
+              disabled={
+                campaign.state !== STATES.ACTIVE || userAccount === creator
+              }
             >
               Contribuir
             </Button>

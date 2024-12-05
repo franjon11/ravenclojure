@@ -73,6 +73,7 @@ const useCampaigns = () => {
 
   return {
     campaigns,
+    userAccount,
     fetchCampaigns,
     createNewCampaign,
     cancelCampaign,
